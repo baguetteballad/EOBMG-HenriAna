@@ -1,0 +1,133 @@
+# O trabalho em WSL foi realizado com acesso ao servidor providenciado pelo professor orientador Bruno Nevado. O projeto iniciou-se com base nas 18 espécies Lupinus em estudo, servindo para um total de 36 samples de reads (18 samples forward + 18 samples reverse).
+ssh username@servidor
+~$ pwd
+/home/eobmg25
+~$ ls -lrt
+total 8
+drwxr-xr-x 3 eobmg25 students 4096 Oct 14 10:29 rawdata
+drwxr-xr-x 2 eobmg25 students 4096 Oct 14 10:45 people
+~$ cd rawdata/Lupinus/
+Lup2105.1.fq.gz           Lup2121.2.fq.gz           Lup2167.1.fq.gz           Lup2251.1.fq.gz  Lup2341.2.fq.gz  Lup2384.1.fq.gz  Lup2457.2.fq.gz
+
+Lup2105.2.fq.gz           Lup2121.2milhoes.1.fq.gz  Lup2167.2.fq.gz           Lup2251.2.fq.gz  Lup2346.1.fq.gz  Lup2384.2.fq.gz  samples
+
+Lup2105.2milhoes.1.fq.gz  Lup2121.2milhoes.2.fq.gz  Lup2167.2milhoes.1.fq.gz  Lup2268.1.fq.gz  Lup2346.2.fq.gz  Lup2392.1.fq.gz
+
+Lup2105.2milhoes.2.fq.gz  Lup2137.1.fq.gz           Lup2178.1.fq.gz           Lup2268.2.fq.gz  Lup2361.1.fq.gz  Lup2392.2.fq.gz
+
+Lup2106.1.fq.gz           Lup2137.2.fq.gz           Lup2178.2.fq.gz           Lup2278.1.fq.gz  Lup2361.2.fq.gz  Lup2431.1.fq.gz
+
+Lup2106.2.fq.gz           Lup2137.2milhoes.1.fq.gz  Lup2221.1.fq.gz           Lup2278.2.fq.gz  Lup2363.1.fq.gz  Lup2431.2.fq.gz
+
+Lup2121.1.fq.gz           Lup2137.2milhoes.2.fq.gz  Lup2221.2.fq.gz           Lup2341.1.fq.gz  Lup2363.2.fq.gz  Lup2457.1.fq.gz
+# Fizemos mais screens noutros separadores para podermos correr os comandos com maior facilidade.
+~/rawdata/Lupinus$ screen -S 2160-2268
+# Os próximos 2 comandos foram repetidos para cada par de samples forward e reverse, obtendo-se 36 subsamples (18 forward + 18 reverse).
+~/rawdata/Lupinus$ module load seqtk
+~/rawdata/Lupinus$ seqtk sample -s10 Lup2221.2.fq.gz 2000000 | gzip -c > Lup2221.2milhoes.2.fq.gz
+# De seguida verificou-se um total de 8M de linhas por subsample, isto é, se cada subsample tem 2M reads, e cada read ocupa 4 linhas (1º -nome, 2º -sequência pb, 3º -formato, 4º -quality control(fq)), terão de existir 8M de linhas no total.
+~/rawdata/Lupinus$ gunzip -cd Lup2105.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2105.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2106.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2106.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2121.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2121.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2137.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2137.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2167.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2167.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2178.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2178.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2221.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2221.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2251.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2251.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2268.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2268.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2278.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2278.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2341.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2341.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2346.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2346.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2361.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2361.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2363.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2363.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2384.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2384.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2392.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2392.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2431.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2431.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2457.2milhoes.1.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ gunzip -cd Lup2457.2milhoes.2.fq.gz | wc -l
+8000000
+~/rawdata/Lupinus$ ls
+Lup2105.1.fq.gz           Lup2137.2milhoes.2.fq.gz  Lup2251.2milhoes.1.fq.gz  Lup2346.2.fq.gz           Lup2392.1.fq.gz
+
+Lup2105.2.fq.gz           Lup2167.1.fq.gz           Lup2251.2milhoes.2.fq.gz  Lup2346.2milhoes.1.fq.gz  Lup2392.2.fq.gz
+
+Lup2105.2milhoes.1.fq.gz  Lup2167.2.fq.gz           Lup2268.1.fq.gz           Lup2346.2milhoes.2.fq.gz  Lup2392.2milhoes.1.fq.gz
+
+Lup2105.2milhoes.2.fq.gz  Lup2167.2milhoes.1.fq.gz  Lup2268.2.fq.gz           Lup2361.1.fq.gz           Lup2392.2milhoes.2.fq.gz
+
+Lup2106.1.fq.gz           Lup2167.2milhoes.2.fq.gz  Lup2268.2milhoes.1.fq.gz  Lup2361.2.fq.gz           Lup2431.1.fq.gz
+
+Lup2106.2.fq.gz           Lup2178.1.fq.gz           Lup2268.2milhoes.2.fq.gz  Lup2361.2milhoes.1.fq.gz  Lup2431.2.fq.gz
+
+Lup2106.2milhoes.1.fq.gz  Lup2178.2.fq.gz           Lup2278.1.fq.gz           Lup2361.2milhoes.2.fq.gz  Lup2431.2milhoes.1.fq.gz
+
+Lup2106.2milhoes.2.fq.gz  Lup2178.2milhoes.1.fq.gz  Lup2278.2.fq.gz           Lup2363.1.fq.gz           Lup2431.2milhoes.2.fq.gz
+
+Lup2121.1.fq.gz           Lup2178.2milhoes.2.fq.gz  Lup2278.2milhoes.1.fq.gz  Lup2363.2.fq.gz           Lup2457.1.fq.gz
+
+Lup2121.2.fq.gz           Lup2221.1.fq.gz           Lup2278.2milhoes.2.fq.gz  Lup2363.2milhoes.1.fq.gz  Lup2457.2.fq.gz
+
+Lup2121.2milhoes.1.fq.gz  Lup2221.2.fq.gz           Lup2341.1.fq.gz           Lup2363.2milhoes.2.fq.gz  Lup2457.2milhoes.1.fq.gz
+
+Lup2121.2milhoes.2.fq.gz  Lup2221.2milhoes.1.fq.gz  Lup2341.2.fq.gz           Lup2384.1.fq.gz           Lup2457.2milhoes.2.fq.gz
+
+Lup2137.1.fq.gz           Lup2221.2milhoes.2.fq.gz  Lup2341.2milhoes.1.fq.gz  Lup2384.2.fq.gz           samples
+
+Lup2137.2.fq.gz           Lup2251.1.fq.gz           Lup2341.2milhoes.2.fq.gz  Lup2384.2milhoes.1.fq.gz
+
+Lup2137.2milhoes.1.fq.gz  Lup2251.2.fq.gz           Lup2346.1.fq.gz           Lup2384.2milhoes.2.fq.gz
+# Ao obter todos os subsamples com 2M reads, passamos os dados para o servidor do Galaxy com o seguinte comando (aplicado a cada sample forward e reverse).
+~/rawdata/Lupinus$ curl -T Lup2268.2milhoes.2.fq.gz -k -v -u galaxy_username ftps://repeatexplorer-elixir.cerit-sc.cz/
+# Continuação no Galaxy.
