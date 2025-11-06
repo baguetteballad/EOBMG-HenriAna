@@ -1,0 +1,170 @@
+# Passando do Galaxy para o computador, criou-se uma pasta "EOBMG" no desktop, onde foram guardados os seguintes 3 ficheiros obtidos por análise de clustering no Galaxy: "CLUSTER_TABLE.csv", "COMPARATIVE_ANALYSIS_COUNTS.csv" e o ficheiro de texto obtido por modificação em Excel do primeiramente referido, guardado em tabulação, "ClusterTabSeparated.txt". 
+# De seguida procurou-se enviar estes ficheiros para o servidor do projeto, através do Windows Powershell no próprio servidor do computador.
+# Para tal, antes de tudo, criou-se um diretório novo no servidor do projeto para onde seriam copiados os ficheiros desejados.
+
+~$ ls
+  people  rawdata
+~$ mkdir repeatexplorer
+~$ pwd
+/home/eobmg25
+~$ cd repeatexplorer
+~/repeatexplorer$ mkdir lupinus
+~/repeatexplorer$ cd lupinus
+~/repeatexplorer/lupinus$ pwd
+/home/eobmg25/repeatexplorer/lupinus
+
+
+# Passando para o servidor do computador.
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+PS C:\Users> pwd
+Path
+----
+C:\Users
+PS C:\Users> ls
+    Directory: C:\Users
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        30/10/2025     10:19                .ms-ad
+d-----        30/10/2025     10:19                .ssh
+d-r---        30/10/2025     10:14                Contacts
+d-r---        30/10/2025     10:22                Desktop
+d-r---        30/10/2025     10:25                Documents
+d-r---        30/10/2025     10:22                Downloads
+d-r---        30/10/2025     10:14                Favorites
+d-r---        30/10/2025     10:14                Links
+d-----        30/10/2025     10:15                Muse Hub
+d-r---        30/10/2025     10:14                Music
+d-r---        30/10/2025     10:15                OneDrive
+d-r---        30/10/2025     10:14                Pictures
+d-r---        30/10/2025     10:14                Saved Games
+d-r---        30/10/2025     10:14                Searches
+d-r---        30/10/2025     10:19                Videos
+-a----        30/10/2025     10:31          24009 .fog_user.log
+PS C:\Users> cd Desktop
+PS C:\Users\Desktop> ls
+    Directory: C:\Users\Desktop
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        30/10/2025     10:25                EOBMG
+-a----        30/10/2025     10:14             93 Area-Pessoal.url
+PS C:\Users\Desktop> cd EOBMG
+PS C:\Users\Desktop\EOBMG> ls
+    Directory: C:\Users\Desktop\EOBMG
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        30/10/2025     10:25          19991 ClusterTabSeparated.txt
+-a----        30/10/2025     10:22          14215 CLUSTER_TABLE.csv
+-a----        30/10/2025     10:22        4074028 COMPARATIVE_ANALYSIS_COUNTS.csv
+PS C:\Users\Desktop\EOBMG> ls
+    Directory: C:\Users\Desktop\EOBMG
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        30/10/2025     10:25          19991 ClusterTabSeparated.txt
+-a----        30/10/2025     10:22          14215 CLUSTER_TABLE.csv
+-a----        30/10/2025     10:22        4074028 COMPARATIVE_ANALYSIS_COUNTS.csv
+
+
+# Fez-se, então, a cópia segura dos 2 ficheiros pretendidos "ClusterTabSeparated.txt" e "COMPARATIVE_ANALYSIS_COUNTS.csv" para o novo diretório "repeatexplorer/lupinus" no servidor do projeto.
+PS C:\Users\Desktop\EOBMG> scp .\COMPARATIVE_ANALYSIS_COUNTS.csv servidor_projeto:/home/eobmg25/repeatexplorer/lupinus
+servidor_projeto's password:
+COMPARATIVE_ANALYSIS_COUNTS.csv                                                                                                                                                100% 3979KB  61.7MB/s   00:00
+PS C:\Users\Desktop\EOBMG> scp .\ClusterTabSeparated.txt servidor_projeto:/home/eobmg25/repeatexplorer/lupinus
+servidor_projeto's password:
+ClusterTabSeparated.txt
+
+
+# Retornando ao servidor do projeto em WSL, de modo a verificar a existência dos ficheiros copiados.
+~/repeatexplorer$ cd lupinus
+~/repeatexplorer/lupinus$ pwd
+/home/eobmg25/repeatexplorer/lupinus
+~/repeatexplorer/lupinus$ ls
+ClusterTabSeparated.txt  COMPARATIVE_ANALYSIS_COUNTS.csv
+~/repeatexplorer/lupinus$ exit
+logout
+Connection to servidor_projeto closed.
+
+
+# Com os ficheiros já copiados, fechou-se a sessão WSL e voltou-se a entrar no servidor do projeto, agora com o argumento "-Y", que deveria permitir a visualização gráfica dentro do servidor, preparando, então, a análise em R.
+PS C:\WINDOWS\system32> ssh -Y servidor_projeto
+~$ cd /home/eobmg25/repeatexplorer/lupinus
+~/repeatexplorer/lupinus$ ls
+ClusterTabSeparated.txt  COMPARATIVE_ANALYSIS_COUNTS.csv
+
+
+# De seguida fez-se o merge dos ficheiros para um outfile "repeats.lupinus.txt", que será utilizado em R.
+~/repeatexplorer/lupinus$ module load repeatexplorer/1.0
+Loading repeatexplorer/1.0
+  Loading requirement: java/jre-1.8.0_361 R/4.4.1
+~/repeatexplorer/lupinus$ mergeClusters.pl -annot ClusterTabSeparated.txt -counts COMPARATIVE_ANALYSIS_COUNTS.csv -outfile repeats.lupinus.txt
+
+
+# Procedeu-se à visualização das entradas do ficheiro e percebeu-se que não estava bem formatado.
+~/repeatexplorer/lupinus$ head repeats.lupinus.txt
+        cluster supercluster    Lup2105_        Lup2106_        Lup2121_        Lup2137_        Lup2167_        Lup2178_        Lup2221_        Lup2251_        Lup2268_        Lup2278_        Lup2341_        Lup2346_ Lup2361_        Lup2363_        Lup2384_        Lup2392_        Lup2431_        Lup2457_
+NA      NA      NA      NA      NA      NA      NA       Total counts:          118324  117678  117342  117814  117772  117508  117816  117786  117718  118120  117658  117826  117412  118372  117208  117496  117820   117716
+35      35      12421   75121   723/repe762mobil680lemen797lass_569TR/Ty748opia/709ela  562er   754/repe465mobil465lemen887lass_617TR/Ty450opia/737ela  1067    678
+32      32      1650    4920    249/repe437rDNA/184rDNA 205A    309/repe520rDNA/369rDNA 408     412     394     152     729     441     218     3309    298     324
+146     146     5048    1148    158/repe136mobil58elemen121lass_91LTR/Ty99gypsy/80romovi91s/Teka94      48her   31l/repe61/mobil87elemen106lass_80LTR/Ty109ypsy/84romovirus/Tekay
+1       1       356312  155142  6870    8686r   12093   10955   11937   8920    13431   12799   11494   12617   5706    2828    6476    1810    2883    6733    4560
+117     117     3460    3020    289/repe337mobil206lemen307lass_185TR/Ty316ypsy/209omovi293/CRM 227er   119/repe161mobil12elemen188lass_127TR/Ty13gypsy/232omovi37s/CRM
+17      17      43966   32386   2677repe2884obil2842emen2896ass_3118ubcl29061/TI2847Spm_2512A   3072tive11166lli13188low69onfide15094   2868repe71/mobil12275men243lass_II/Subclass_1/TIR/EnSpm_CACTA
+21      21      13893   12463   907/repe1029obil949lemen1038ass_932TR/Ty1032pia 1031r   870/repe999mobil213lemen343lass_79LTR/Ty373opia 242     66      344     200
+44      44      2067    5067    482/repe505mobil317lemen496lass_313TR/Ty601opia/291     491ative408R ele258ts   264/repe479mobil496lemen202lass_508TR/Ty510opia/540
+
+
+# Para garantir o bom funcionamento e leitura do ficheiro em R, alterou-se a line ending dos 2 ficheiros copiados, que poderiam estar em DOS (Windows). No nosso caso, "ClusterTabSeparated.txt" estava em DOS. Para tal, utilizou-se o comando "vi" que abre uma nova interface, seguido de ":set ff=unix", ":wq".
+~/repeatexplorer/lupinus$ vi ClusterTabSeparated.txt
+:set ff=unix
+:wq
+~/repeatexplorer/lupinus$ vi COMPARATIVE_ANALYSIS_COUNTS.csv
+:set ff=unix
+:wq
+
+
+# Refez-se o merging.
+~/repeatexplorer/lupinus$ mergeClusters.pl -annot ClusterTabSeparated.txt -counts COMPARATIVE_ANALYSIS_COUNTS.csv -outfile repeats.lupinus.txt
+# Procedeu-se, mais uma vez, à visualização, averiguando a formatação correta dos dados.
+~/repeatexplorer/lupinus$ head repeats.lupinus.txt
+        cluster supercluster    Lup2105_        Lup2106_        Lup2121_        Lup2137_        Lup2167_        Lup2178_        Lup2221_        Lup2251_        Lup2268_        Lup2278_        Lup2341_        Lup2346_ Lup2361_        Lup2363_        Lup2384_        Lup2392_        Lup2431_        Lup2457_
+NA      NA      NA      NA      NA      NA      NA       Total counts:          118324  117678  117342  117814  117772  117508  117816  117786  117718  118120  117658  117826  117412  118372  117208  117496  117820   117716
+24      5       62611   62611   All/repeat/rDNA/45S_rDNA        Other   All/repeat/rDNA/45S_rDNA        24      5       3133    1712    1775    1728    1766    2144    3683    1371    2870    2124    2815    3347     9889    5133    3279    9261    3922    2659
+94      26      4180    4180    All/repeat/mobile_element/Class_II/Subclass_2/Helitron  Other   All/repeat/mobile_element/Class_II/Subclass_2/Helitron  94      26      332     369     283     213     495     213      324     183     330     350     115     117     63      201     280     59      218     35
+103     30      3802    3802    All/repeat/mobile_element/Class_I       Putative LTR elements   All/repeat/mobile_element/Class_I       103     30      333     176     366     218     355     193     485     297      344     676     61      94      0       79      0       0       125     0
+120     36      11592   11592   All/repeat/mobile_element/Class_I/LTR/Ty1_copia/Ale     Other   All/repeat/mobile_element/Class_I/LTR/Ty1_copia/Ale     120     36      808     972     838     546     680     741      970     604     657     686     601     609     221     672     667     206     844     270
+170     77      2079    2079    All/organelle/mitochondria      Other   All/organelle/mitochondria      170     77      50      142     105     105     120     61      65      200     64      61      114     145      129     157     153     89      216     103
+32      16      9450    9450    All/repeat/rDNA/5S_rDNA rDNA    All/repeat/rDNA/5S_rDNA 32      16      492     249     437     184     205     309     520     369     408     412     394     152     729     441      218     3309    298     324
+20      9       25919   25919   All/repeat/mobile_element/Class_I/LINE  Other   All/repeat/mobile_element/Class_I/LINE  20      9       2022    1692    1925    1971    2152    2136    1937    1901    2091    1835     1033    1170    47      1090    1477    44      1279    117
+81      24      8530    8530    All/repeat/mobile_element/Class_I/LTR   Other   All/repeat/mobile_element/Class_I/LTR   81      24      616     653     661     624     650     484     665     642     517     617      348     271     225     257     202     187     679     232
+
+
+# Retornou-se ao servidor do computador em Powershell com o intuito de guardar o ficheiro outfile localmente, no sentido de fazer uma análise mais prática em R, já que no servidor estavam a surgir alguns problemas.
+# Para tal, fez-se uma cópia segura do ficheiro "repeats.lupinus.txt" do servidor do projeto para a pasta "EOBMG" no PC.
+PS C:\Users\Desktop\EOBMG> scp servidor_projeto:/home/eobmg25/repeatexplorer/lupinus/repeats.lupinus.txt .
+servidor_projeto's password:
+repeats.lupinus.txt                                                                                                                                                            100% 5207     5.1KB/s   00:00
+PS C:\Users\Desktop\EOBMG> ls
+    Directory: C:\Users\Desktop\EOBMG
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----        30/10/2025     10:25          19991 ClusterTabSeparated.txt
+-a----        30/10/2025     10:22          14215 CLUSTER_TABLE.csv
+-a----        30/10/2025     10:22        4074028 COMPARATIVE_ANALYSIS_COUNTS.csv
+-a----        30/10/2025     11:02           5207 repeats.lupinus.txt
+
+
+# Para fazer a nossa análise em R, não só precisamos do ficheiro outfile, como também do ficheiro com a filogenia e com os nomes de cada espécie/par de samples, que estão guardados no servidor do projeto, noutro diretório.
+# Procedeu-se à cópia dos ficheiros do servidor para o novo diretório.
+~/repeatexplorer/lupinus$ cp /home/data/lupins/lupintree.tre .
+~/repeatexplorer/lupinus$ cp /home/data/lupins/samplesLupinus_eoBMG25.txt .
+~/repeatexplorer/lupinus$ ls
+ClusterTabSeparated.txt  ClusterTabSeparated.txt.merged.txt  COMPARATIVE_ANALYSIS_COUNTS.csv  COMPARATIVE_ANALYSIS_COUNTS.csv.merged.txt  lupintree.tre  repeats.lupinus.txt  samplesLupinus_eoBMG25.txt
+
+
+# Fez-se a cópia segura dos dois novos ficheiros no diretório para a pasta local "EOBMG" pelo Powershell. 
+PS C:\Users\Desktop\EOBMG> scp servidor_projeto:/home/eobmg25/repeatexplorer/lupinus/lupintree.tre .
+PS C:\Users\Desktop\EOBMG> scp servidor_projeto:/home/eobmg25/repeatexplorer/lupinus/samplesLupinus_eoBMG25.txt .
+# Finalmente passou-se para o RStudio.
+
+
