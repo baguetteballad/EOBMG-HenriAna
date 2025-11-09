@@ -74,8 +74,11 @@ ordem_desejada <- c("satellite","45S_rDNA","5S_rDNA","Class_I",
                     "Ale","Ivana","Tork","Ikeros","Tekay","Athila","CRM",
                     "Galadriel","EnSpm_CACTA","MuDR_Mutator","Helitron","All")
 
+
 # Create a new variable to reorder the final repeats according to the legend
 repeats_final_ord <- repeats_final[match(ordem_desejada, rownames(repeats_final)), ]
+
+png("RPlotRepeatsAbundanceLup.png", width = 4000, height = 3000, res = 300) # We do this in order to save the output with high resolution
 
 # Here we need to choose colours for the 22 different repeat types and adjust the respective saturation and brightness
 cols<- rainbow(22, s = 0.65, v = 1)
@@ -86,13 +89,14 @@ legenda <- c("Satellite","45S_rDNA","5S_rDNA","Class_I",
              "LINE","LTR","Ty1/copia","SIRE","Angela","TAR",
              "Ale","Ivana","Tork","Ikeros","Tekay","Athila","CRM",
              "Galadriel","EnSpm_CACTA","MuDR_Mutator","Helitron","All")
+
 legenda
 
-par(mfrow=c(1,3), mar=c(5,5,4,0))  # c(bottom, left, top, right)), makes the bars more elongated
+par(mfrow=c(1,3), mar=c(5,7,4,0))  # c(bottom, left, top, right)), makes the bars more elongated
 plot(subtree,cex=1)
 # xlim to make the barplot fit inside the scale (max=60)
 barplot(as.matrix(repeats_final_ord),horiz=TRUE,las=1,col=cols,xlim=c(0, 60), border="black")
 legend(x=75,y=21.6,xpd=NA,fill=cols,leg = legenda,cex=1.4)
 
 
-
+dev.off() # This is where the png stops
