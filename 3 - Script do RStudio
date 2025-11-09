@@ -72,7 +72,7 @@ repeats_final<-repeats_final[,tip_order]
 cols<-rainbow(22)
 barplot(1:22)
 
-legenda <- c("Satelitte","45S_rDNA","5S_rDNA","Class_I",
+legenda <- c("Satellite","45S_rDNA","5S_rDNA","Class_I",
              "LINE","LTR","Ty1/copia","SIRE","Angela","TAR",
              "Ale","Ivana","Tork","Ikeros","Tekay","Athila","CRM",
              "Galadriel","EnSpm_CACTA","MuDR_Mutator","Helitron","All")
