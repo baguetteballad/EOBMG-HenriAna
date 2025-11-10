@@ -1,6 +1,6 @@
-# Passando do Galaxy para o computador, criou-se uma pasta "EOBMG" no desktop, onde foram guardados os seguintes 3 ficheiros obtidos por análise de clustering no Galaxy: "CLUSTER_TABLE.csv", "COMPARATIVE_ANALYSIS_COUNTS.csv" e o ficheiro de texto obtido por modificação em Excel do primeiramente referido, guardado em tabulação, "ClusterTabSeparated.txt". 
-# De seguida procurou-se enviar estes ficheiros para o servidor do projeto, através do Windows Powershell no próprio servidor do computador.
-# Para tal, antes de tudo, criou-se um diretório novo no servidor do projeto para onde seriam copiados os ficheiros desejados.
+# Switching from Galaxy - RepeatExplorer to the computer, we created a folder named "EOBMG" on the desktop, where the following 3 files obtained through clustering analysis on Galaxy's server were saved: "CLUSTER_TABLE.csv", "COMPARATIVE_ANALYSIS_COUNTS.csv" plus the text file attained by modification of the cluster table in Excel (saved as tabulation), "ClusterTabSeparated.txt". 
+# Next, these files were sent to the project server using Windows PowerShell on the computer's own IP.
+# To do this, firstly, a new directory was created on the project server, signaling where the desired files would be copied onto.
 
 ~$ ls
   people  rawdata
@@ -14,7 +14,7 @@
 /home/eobmg25/repeatexplorer/lupinus
 
 
-# Passando para o servidor do computador.
+# Changing to the computer's server.
 Windows PowerShell
 Copyright (C) Microsoft Corporation. All rights reserved.
 Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
@@ -66,16 +66,16 @@ Mode                 LastWriteTime         Length Name
 -a----        30/10/2025     10:22        4074028 COMPARATIVE_ANALYSIS_COUNTS.csv
 
 
-# Fez-se, então, a cópia segura dos 2 ficheiros pretendidos "ClusterTabSeparated.txt" e "COMPARATIVE_ANALYSIS_COUNTS.csv" para o novo diretório "repeatexplorer/lupinus" no servidor do projeto.
-PS C:\Users\Desktop\EOBMG> scp .\COMPARATIVE_ANALYSIS_COUNTS.csv servidor_projeto:/home/eobmg25/repeatexplorer/lupinus
-servidor_projeto's password:
+# Subsequently, we made a secure copy of the 2 desired files "ClusterTabSeparated.txt" and "COMPARATIVE_ANALYSIS_COUNTS.csv" to the new directory "repeatexplorer/lupinus" on the project server.
+PS C:\Users\Desktop\EOBMG> scp .\COMPARATIVE_ANALYSIS_COUNTS.csv project_server:/home/eobmg25/repeatexplorer/lupinus
+project_server's password:
 COMPARATIVE_ANALYSIS_COUNTS.csv                                                                                                                                                100% 3979KB  61.7MB/s   00:00
-PS C:\Users\Desktop\EOBMG> scp .\ClusterTabSeparated.txt servidor_projeto:/home/eobmg25/repeatexplorer/lupinus
-servidor_projeto's password:
+PS C:\Users\Desktop\EOBMG> scp .\ClusterTabSeparated.txt project_server:/home/eobmg25/repeatexplorer/lupinus
+project_server's password:
 ClusterTabSeparated.txt
 
 
-# Retornando ao servidor do projeto em WSL, de modo a verificar a existência dos ficheiros copiados.
+# Returning to the project server in WSL, we verified the existence of the copied files
 ~/repeatexplorer$ cd lupinus
 ~/repeatexplorer/lupinus$ pwd
 /home/eobmg25/repeatexplorer/lupinus
@@ -83,24 +83,24 @@ ClusterTabSeparated.txt
 ClusterTabSeparated.txt  COMPARATIVE_ANALYSIS_COUNTS.csv
 ~/repeatexplorer/lupinus$ exit
 logout
-Connection to servidor_projeto closed.
+Connection to project_server closed.
 
 
-# Com os ficheiros já copiados, fechou-se a sessão WSL e voltou-se a entrar no servidor do projeto, agora com o argumento "-Y", que deveria permitir a visualização gráfica dentro do servidor, preparando, então, a análise em R.
-PS C:\WINDOWS\system32> ssh -Y servidor_projeto
+# With the already copied files, we closed the WSL session and we got back into the same server, just now with the addition of the argument "-Y", that should enable graphic visualization inside the project server, preparing, thus, the following analysis in R.
+PS C:\WINDOWS\system32> ssh -Y project_server
 ~$ cd /home/eobmg25/repeatexplorer/lupinus
 ~/repeatexplorer/lupinus$ ls
 ClusterTabSeparated.txt  COMPARATIVE_ANALYSIS_COUNTS.csv
 
 
-# De seguida fez-se o merge dos ficheiros para um outfile "repeats.lupinus.txt", que será utilizado em R.
+# After that we merged the files into an outfile "repeats.lupinus.txt", that will be used in R.
 ~/repeatexplorer/lupinus$ module load repeatexplorer/1.0
 Loading repeatexplorer/1.0
   Loading requirement: java/jre-1.8.0_361 R/4.4.1
 ~/repeatexplorer/lupinus$ mergeClusters.pl -annot ClusterTabSeparated.txt -counts COMPARATIVE_ANALYSIS_COUNTS.csv -outfile repeats.lupinus.txt
 
 
-# Procedeu-se à visualização das entradas do ficheiro e percebeu-se que não estava bem formatado.
+# We proceeded to visualize the outfile's entries and we concluded that it was not correctly formatted for our analysis.
 ~/repeatexplorer/lupinus$ head repeats.lupinus.txt
         cluster supercluster    Lup2105_        Lup2106_        Lup2121_        Lup2137_        Lup2167_        Lup2178_        Lup2221_        Lup2251_        Lup2268_        Lup2278_        Lup2341_        Lup2346_ Lup2361_        Lup2363_        Lup2384_        Lup2392_        Lup2431_        Lup2457_
 NA      NA      NA      NA      NA      NA      NA       Total counts:          118324  117678  117342  117814  117772  117508  117816  117786  117718  118120  117658  117826  117412  118372  117208  117496  117820   117716
@@ -114,7 +114,7 @@ NA      NA      NA      NA      NA      NA      NA       Total counts:          
 44      44      2067    5067    482/repe505mobil317lemen496lass_313TR/Ty601opia/291     491ative408R ele258ts   264/repe479mobil496lemen202lass_508TR/Ty510opia/540
 
 
-# Para garantir o bom funcionamento e leitura do ficheiro em R, alterou-se a line ending dos 2 ficheiros copiados, que poderiam estar em DOS (Windows). No nosso caso, "ClusterTabSeparated.txt" estava em DOS. Para tal, utilizou-se o comando "vi" que abre uma nova interface, seguido de ":set ff=unix", ":wq".
+# Therefore, to grant the correct functioning and processing of the file in R, we altered the line ending of the 2 copied files, that could be in DOS (Windows). In our case, "ClusterTabSeparated.txt" was, in fact, in DOS. Thus, we used the command "vi" that opens a new interface, followed by ":set ff=unix". What this does is change the line ending to Unix, a more efficient line ending that simplifies coding and prevents conflicts in cross-platform development.
 ~/repeatexplorer/lupinus$ vi ClusterTabSeparated.txt
 :set ff=unix
 :wq
@@ -123,9 +123,9 @@ NA      NA      NA      NA      NA      NA      NA       Total counts:          
 :wq
 
 
-# Refez-se o merging.
+# Then we resorted to remerge.
 ~/repeatexplorer/lupinus$ mergeClusters.pl -annot ClusterTabSeparated.txt -counts COMPARATIVE_ANALYSIS_COUNTS.csv -outfile repeats.lupinus.txt
-# Procedeu-se, mais uma vez, à visualização, averiguando a formatação correta dos dados.
+# We proceeded, once again, to the visualization of the outfile, confirming the correct data format.
 ~/repeatexplorer/lupinus$ head repeats.lupinus.txt
         cluster supercluster    Lup2105_        Lup2106_        Lup2121_        Lup2137_        Lup2167_        Lup2178_        Lup2221_        Lup2251_        Lup2268_        Lup2278_        Lup2341_        Lup2346_ Lup2361_        Lup2363_        Lup2384_        Lup2392_        Lup2431_        Lup2457_
 NA      NA      NA      NA      NA      NA      NA       Total counts:          118324  117678  117342  117814  117772  117508  117816  117786  117718  118120  117658  117826  117412  118372  117208  117496  117820   117716
@@ -139,10 +139,10 @@ NA      NA      NA      NA      NA      NA      NA       Total counts:          
 81      24      8530    8530    All/repeat/mobile_element/Class_I/LTR   Other   All/repeat/mobile_element/Class_I/LTR   81      24      616     653     661     624     650     484     665     642     517     617      348     271     225     257     202     187     679     232
 
 
-# Retornou-se ao servidor do computador em Powershell com o intuito de guardar o ficheiro outfile localmente, no sentido de fazer uma análise mais prática em R, já que no servidor estavam a surgir alguns problemas.
-# Para tal, fez-se uma cópia segura do ficheiro "repeats.lupinus.txt" do servidor do projeto para a pasta "EOBMG" no PC.
-PS C:\Users\Desktop\EOBMG> scp servidor_projeto:/home/eobmg25/repeatexplorer/lupinus/repeats.lupinus.txt .
-servidor_projeto's password:
+# We returned to the computer server in Powershell with the purpose of saving the outfile locally so that we could do a more practical analysis via RStudio, since some problems were arising while trying to use R inside the project server.
+# To do that, we made a secure copy of the file "repeats.lupinus.txt" from the project server to the folder "EOBMG" on the PC.
+PS C:\Users\Desktop\EOBMG> scp project_server:/home/eobmg25/repeatexplorer/lupinus/repeats.lupinus.txt .
+project_server's password:
 repeats.lupinus.txt                                                                                                                                                            100% 5207     5.1KB/s   00:00
 PS C:\Users\Desktop\EOBMG> ls
     Directory: C:\Users\Desktop\EOBMG
@@ -154,17 +154,17 @@ Mode                 LastWriteTime         Length Name
 -a----        30/10/2025     11:02           5207 repeats.lupinus.txt
 
 
-# Para fazer a nossa análise em R, não só precisamos do ficheiro outfile, como também do ficheiro com a filogenia e com os nomes de cada espécie/par de samples, que estão guardados no servidor do projeto, noutro diretório.
-# Procedeu-se à cópia dos ficheiros do servidor para o novo diretório.
+# To proceed with the analysis in RStudio, not only did we need the outfile, but also the files containing the phylogeny and the names of each species/pair of samples, that were already saved in the project server, on another directory.
+# We copied those files to the new directory.
 ~/repeatexplorer/lupinus$ cp /home/data/lupins/lupintree.tre .
 ~/repeatexplorer/lupinus$ cp /home/data/lupins/samplesLupinus_eoBMG25.txt .
 ~/repeatexplorer/lupinus$ ls
 ClusterTabSeparated.txt  ClusterTabSeparated.txt.merged.txt  COMPARATIVE_ANALYSIS_COUNTS.csv  COMPARATIVE_ANALYSIS_COUNTS.csv.merged.txt  lupintree.tre  repeats.lupinus.txt  samplesLupinus_eoBMG25.txt
 
 
-# Fez-se a cópia segura dos dois novos ficheiros no diretório para a pasta local "EOBMG" pelo Powershell. 
-PS C:\Users\Desktop\EOBMG> scp servidor_projeto:/home/eobmg25/repeatexplorer/lupinus/lupintree.tre .
-PS C:\Users\Desktop\EOBMG> scp servidor_projeto:/home/eobmg25/repeatexplorer/lupinus/samplesLupinus_eoBMG25.txt .
-# Finalmente passou-se para o RStudio.
+# Ultimately, we made a secure copy of the 2 new files in the new directory of the project server to the local folder "EOBMG" via Powershell. 
+PS C:\Users\Desktop\EOBMG> scp project_server:/home/eobmg25/repeatexplorer/lupinus/lupintree.tre .
+PS C:\Users\Desktop\EOBMG> scp project_server:/home/eobmg25/repeatexplorer/lupinus/samplesLupinus_eoBMG25.txt .
+# Finally, we moved into RStudio.
 
 
