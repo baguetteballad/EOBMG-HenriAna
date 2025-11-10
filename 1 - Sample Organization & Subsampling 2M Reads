@@ -1,4 +1,4 @@
-# O trabalho em WSL foi realizado com acesso ao servidor providenciado pelo professor orientador Bruno Nevado. O projeto iniciou-se com base nas 18 espécies Lupinus em estudo, servindo para um total de 36 samples de reads (18 samples forward + 18 samples reverse).
+# The work in WSL was carried out with access to the server provided by the supervising professor, Bruno Nevado. The project began with the 18 Lupinus species under study, serving as the basis for a total of 36 samples of reads (18 forward samples + 18 reverse samples).
 ssh username@servidor
 ~$ pwd
 /home/eobmg25
@@ -20,12 +20,12 @@ Lup2106.1.fq.gz           Lup2137.2.fq.gz           Lup2178.2.fq.gz           Lu
 Lup2106.2.fq.gz           Lup2137.2milhoes.1.fq.gz  Lup2221.1.fq.gz           Lup2278.2.fq.gz  Lup2363.1.fq.gz  Lup2431.2.fq.gz
 
 Lup2121.1.fq.gz           Lup2137.2milhoes.2.fq.gz  Lup2221.2.fq.gz           Lup2341.1.fq.gz  Lup2363.2.fq.gz  Lup2457.1.fq.gz
-# Fizemos mais screens noutros separadores para podermos correr os comandos com maior facilidade.
+# Here we decided to create more screens in order to have an easier time running/executing the commands.
 ~/rawdata/Lupinus$ screen -S 2160-2268
-# Os próximos 2 comandos foram repetidos para cada par de samples forward e reverse, obtendo-se 36 subsamples (18 forward + 18 reverse).
+# The next 2 commands were repeated for each pair of forward and reverse samples, attaining 36 subsamples (18 forward + 18 reverse).
 ~/rawdata/Lupinus$ module load seqtk
 ~/rawdata/Lupinus$ seqtk sample -s10 Lup2221.2.fq.gz 2000000 | gzip -c > Lup2221.2milhoes.2.fq.gz
-# De seguida verificou-se um total de 8M de linhas por subsample, isto é, se cada subsample tem 2M reads, e cada read ocupa 4 linhas (1º -nome, 2º -sequência pb, 3º -formato, 4º -quality control(fq)), terão de existir 8M de linhas no total.
+# Then we verified if we had a total of 8M (million) lines per subsample, i.e., if each subsample has 2M reads, and each read occupies 4 lines (1º -name, 2º -sequence of bp, 3º -format, 4º -quality control(fq)), then there will have to exist 8M of lines in total.
 ~/rawdata/Lupinus$ gunzip -cd Lup2105.2milhoes.1.fq.gz | wc -l
 8000000
 ~/rawdata/Lupinus$ gunzip -cd Lup2105.2milhoes.2.fq.gz | wc -l
@@ -128,6 +128,6 @@ Lup2137.1.fq.gz           Lup2221.2milhoes.2.fq.gz  Lup2341.2milhoes.1.fq.gz  Lu
 Lup2137.2.fq.gz           Lup2251.1.fq.gz           Lup2341.2milhoes.2.fq.gz  Lup2384.2milhoes.1.fq.gz
 
 Lup2137.2milhoes.1.fq.gz  Lup2251.2.fq.gz           Lup2346.1.fq.gz           Lup2384.2milhoes.2.fq.gz
-# Ao obter todos os subsamples com 2M reads, passamos os dados para o servidor do Galaxy com o seguinte comando (aplicado a cada sample forward e reverse).
+# After obtaining all subsamples with 2M reads, we transferred the data to the Galaxy server using the following command (applied to each forward and reverse samples).
 ~/rawdata/Lupinus$ curl -T Lup2268.2milhoes.2.fq.gz -k -v -u galaxy_username ftps://repeatexplorer-elixir.cerit-sc.cz/
-# Continuação no Galaxy.
+# Continued on Galaxy.
