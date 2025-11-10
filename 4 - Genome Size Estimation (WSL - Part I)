@@ -1,0 +1,364 @@
+# Now we will use the initial samples, not the 2M reads subsamples, since we want more coverage in order to estimate genome size.
+# First things first, we created a new directory to where the clean reads (reads without the adapters) were sent to.
+~$ ls
+people  rawdata  repeatexplorer  Rplots.pdf
+~$ cd rawdata
+~/rawdata$ ls
+Lupinus
+~/rawdata/Lupinus$ cd ..
+~/rawdata$ mkdir clean_reads_lup
+~/rawdata$ ls
+clean_reads_lup  Lupinus
+# We created 18 different screens (screen -S ...) to run the trim galore command for each pair of samples since each one took about an hour to conclude.
+~/rawdata$ module load trimgalore/0.6.10
+Loading trimgalore/0.6.10
+  Loading requirement: java/jre-1.8.0_361 fastqc/0.12.1 cutadapt/4.3
+~/rawdata$ trim_galore -q 20 --length 50 --output_dir /home/eobmg25/rawdata/clean_reads_lup --paired Lup2105.1.fq.gz Lup2105.2.fq.gz 
+# After waiting a bunch...
+
+~/rawdata/clean_reads_lup$ ls
+Lup2106.1.fq.gz_trimming_report.txt  Lup2167.1.fq.gz_trimming_report.txt  Lup2251.1.fq.gz_trimming_report.txt  Lup2341.1.fq.gz_trimming_report.txt  Lup2363.1.fq.gz_trimming_report.txt  Lup2431.1.fq.gz_trimming_report.txt
+Lup2106.1_val_1.fq.gz                Lup2167.1_val_1.fq.gz                Lup2251.1_val_1.fq.gz                Lup2341.1_val_1.fq.gz                Lup2363.1_val_1.fq.gz                Lup2431.1_val_1.fq.gz
+Lup2106.2.fq.gz_trimming_report.txt  Lup2167.2.fq.gz_trimming_report.txt  Lup2251.2.fq.gz_trimming_report.txt  Lup2341.2.fq.gz_trimming_report.txt  Lup2363.2.fq.gz_trimming_report.txt  Lup2431.2.fq.gz_trimming_report.txt
+Lup2106.2_val_2.fq.gz                Lup2167.2_val_2.fq.gz                Lup2251.2_val_2.fq.gz                Lup2341.2_val_2.fq.gz                Lup2363.2_val_2.fq.gz                Lup2431.2_val_2.fq.gz
+Lup2121.1.fq.gz_trimming_report.txt  Lup2178.1.fq.gz_trimming_report.txt  Lup2268.1.fq.gz_trimming_report.txt  Lup2346.1.fq.gz_trimming_report.txt  Lup2384.1.fq.gz_trimming_report.txt  Lup2457.1.fq.gz_trimming_report.txt
+Lup2121.1_val_1.fq.gz                Lup2178.1_val_1.fq.gz                Lup2268.1_val_1.fq.gz                Lup2346.1_val_1.fq.gz                Lup2384.1_val_1.fq.gz                Lup2457.1_val_1.fq.gz
+Lup2121.2.fq.gz_trimming_report.txt  Lup2178.2.fq.gz_trimming_report.txt  Lup2268.2.fq.gz_trimming_report.txt  Lup2346.2.fq.gz_trimming_report.txt  Lup2384.2.fq.gz_trimming_report.txt  Lup2457.2.fq.gz_trimming_report.txt
+Lup2121.2_val_2.fq.gz                Lup2178.2_val_2.fq.gz                Lup2268.2_val_2.fq.gz                Lup2346.2_val_2.fq.gz                Lup2384.2_val_2.fq.gz                Lup2457.2_val_2.fq.gz
+Lup2137.1.fq.gz_trimming_report.txt  Lup2221.1.fq.gz_trimming_report.txt  Lup2278.1.fq.gz_trimming_report.txt  Lup2361.1.fq.gz_trimming_report.txt  Lup2392.1.fq.gz_trimming_report.txt
+Lup2137.1_val_1.fq.gz                Lup2221.1_val_1.fq.gz                Lup2278.1_val_1.fq.gz                Lup2361.1_val_1.fq.gz                Lup2392.1_val_1.fq.gz
+Lup2137.2.fq.gz_trimming_report.txt  Lup2221.2.fq.gz_trimming_report.txt  Lup2278.2.fq.gz_trimming_report.txt  Lup2361.2.fq.gz_trimming_report.txt  Lup2392.2.fq.gz_trimming_report.txt
+Lup2137.2_val_2.fq.gz                Lup2221.2_val_2.fq.gz                Lup2278.2_val_2.fq.gz                Lup2361.2_val_2.fq.gz                Lup2392.2_val_2.fq.gz
+
+# We encountered an error within the first screen created (for Lup2105).
+gzip: /home/eobmg25/rawdata/clean_reads_lup/Lup2105.1_trimmed.fq.gz: invalid compressed data--format violated Read 1 output is truncated at sequence count: 8666017, please check your paired-end input files! Terminating...
+# Therefore we ran the trim galore one more time for this pair only.
+# After that we verified the data present in our new directory.
+~/rawdata/clean_reads_lup$ ls -lrt
+total 137301572
+-rw-r--r-- 1 eobmg25 students       5167 Nov 10 02:10 Lup2106.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5259 Nov 10 02:11 Lup2121.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5225 Nov 10 02:12 Lup2137.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5319 Nov 10 02:12 Lup2167.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5256 Nov 10 02:13 Lup2268.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5228 Nov 10 02:14 Lup2221.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5257 Nov 10 02:16 Lup2251.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5238 Nov 10 02:16 Lup2178.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5064 Nov 10 02:18 Lup2361.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5114 Nov 10 02:18 Lup2341.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       4731 Nov 10 02:19 Lup2384.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5212 Nov 10 02:21 Lup2278.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5077 Nov 10 02:21 Lup2392.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5075 Nov 10 02:22 Lup2363.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5034 Nov 10 02:22 Lup2346.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5007 Nov 10 02:25 Lup2457.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5030 Nov 10 02:32 Lup2431.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 3383577978 Nov 10 03:09 Lup2268.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 3497352625 Nov 10 03:09 Lup2268.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5472 Nov 10 03:09 Lup2268.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 3525260338 Nov 10 03:13 Lup2121.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 3678103745 Nov 10 03:13 Lup2121.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5491 Nov 10 03:13 Lup2121.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 3567161293 Nov 10 03:13 Lup2167.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 3758454684 Nov 10 03:13 Lup2167.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5551 Nov 10 03:13 Lup2167.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 3801949597 Nov 10 03:13 Lup2137.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students 3659283678 Nov 10 03:13 Lup2137.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students       5457 Nov 10 03:13 Lup2137.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 3723157179 Nov 10 03:15 Lup2106.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 3982021021 Nov 10 03:15 Lup2106.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5421 Nov 10 03:15 Lup2106.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 3689053175 Nov 10 03:18 Lup2221.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 3922375915 Nov 10 03:18 Lup2221.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5475 Nov 10 03:18 Lup2221.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 3739433189 Nov 10 03:19 Lup2251.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 3892661916 Nov 10 03:19 Lup2251.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5484 Nov 10 03:19 Lup2251.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 3578299906 Nov 10 03:21 Lup2384.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 3688375719 Nov 10 03:21 Lup2384.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5008 Nov 10 03:21 Lup2384.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 3643806339 Nov 10 03:22 Lup2361.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 3910637138 Nov 10 03:22 Lup2361.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5294 Nov 10 03:22 Lup2361.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 3938052046 Nov 10 03:24 Lup2178.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 4152798821 Nov 10 03:24 Lup2178.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5465 Nov 10 03:24 Lup2178.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 3865794885 Nov 10 03:26 Lup2341.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 4112684987 Nov 10 03:26 Lup2341.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5350 Nov 10 03:26 Lup2341.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 3889584329 Nov 10 03:28 Lup2392.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 4104579766 Nov 10 03:28 Lup2392.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5356 Nov 10 03:28 Lup2392.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 3838459719 Nov 10 03:28 Lup2363.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 4098052856 Nov 10 03:28 Lup2363.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5305 Nov 10 03:28 Lup2363.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 4032391746 Nov 10 03:29 Lup2346.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students 3843447504 Nov 10 03:29 Lup2346.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students       5274 Nov 10 03:29 Lup2346.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 4224876556 Nov 10 03:37 Lup2278.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 4624421717 Nov 10 03:37 Lup2278.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5436 Nov 10 03:37 Lup2278.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 4094688828 Nov 10 03:39 Lup2457.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 4467082628 Nov 10 03:39 Lup2457.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5249 Nov 10 03:39 Lup2457.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 4583306503 Nov 10 03:49 Lup2431.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 4815171402 Nov 10 03:49 Lup2431.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5289 Nov 10 03:49 Lup2431.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students       5352 Nov 10 12:29 Lup2105.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 3572988771 Nov 10 13:24 Lup2105.1_val_1.fq.gz
+-rw-r--r-- 1 eobmg25 students 3696951837 Nov 10 13:24 Lup2105.2_val_2.fq.gz
+-rw-r--r-- 1 eobmg25 students       5575 Nov 10 13:24 Lup2105.2.fq.gz_trimming_report.txt
+# Finally, Lup2105 seemed to be correct.
+
+# We created a loop to decompress all pairs of samples terminating in "gz". "gunzip" decompresses these files, leaving us with $sample.fq.
+nano gunzip_all.sh
+#!/bin/bash
+OUTPUTFOLDER="/home/eobmg25/rawdata/clean_reads_lup"
+cd "$OUTPUTFOLDER" || exit
+# Loop for all files *_1_val_1.fq.gz
+for fq1 in *.1_val_1.fq.gz; do
+    # Extract the prefix name/basename (without .1_val_1.fq.gz).
+    SAMPLE=$(basename "$fq1" .1_val_1.fq.gz)
+    
+    fq2="${SAMPLE}.2_val_2.fq.gz"
+    
+    # Verify if the pair exists.
+    if [[ -f "$fq2" ]]; then
+        echo ">>> A descomprimir amostra: $SAMPLE"
+        gunzip "$fq1"
+        gunzip "$fq2"
+        echo "$SAMPLE concluída!"
+    else
+        echo "Aviso: ficheiro par não encontrado para $SAMPLE"
+    fi
+done
+Ctrl + O # Saves the file. 
+Enter
+Ctrl + X # Exits the editor.
+# To run the loop:
+~/rawdata/clean_reads_lup$ chmod +x gunzip_all.sh
+~/rawdata/clean_reads_lup$ ./gunzip_all.sh
+>>> A descomprimir amostra: Lup2105
+✔ Lup2105 concluída!
+>>> A descomprimir amostra: Lup2106
+✔ Lup2106 concluída!
+>>> A descomprimir amostra: Lup2121
+✔ Lup2121 concluída!
+>>> A descomprimir amostra: Lup2137
+✔ Lup2137 concluída!
+>>> A descomprimir amostra: Lup2167
+✔ Lup2167 concluída!
+>>> A descomprimir amostra: Lup2178
+✔ Lup2178 concluída!
+>>> A descomprimir amostra: Lup2221
+✔ Lup2221 concluída!
+>>> A descomprimir amostra: Lup2251
+✔ Lup2251 concluída!
+>>> A descomprimir amostra: Lup2268
+✔ Lup2268 concluída!
+>>> A descomprimir amostra: Lup2278
+✔ Lup2278 concluída!
+>>> A descomprimir amostra: Lup2341
+✔ Lup2341 concluída!
+>>> A descomprimir amostra: Lup2346
+✔ Lup2346 concluída!
+>>> A descomprimir amostra: Lup2361
+✔ Lup2361 concluída!
+>>> A descomprimir amostra: Lup2363
+✔ Lup2363 concluída!
+>>> A descomprimir amostra: Lup2384
+✔ Lup2384 concluída!
+>>> A descomprimir amostra: Lup2392
+✔ Lup2392 concluída!
+>>> A descomprimir amostra: Lup2431
+✔ Lup2431 concluída!
+>>> A descomprimir amostra: Lup2457
+✔ Lup2457 concluída!
+
+
+# Then we created another loop to run the jellyfish command for every pair of samples, both counting the K-mers and creating the histograms. 
+nano run_jellyfish.sh
+#!/bin/bash
+module load jellyfish/2.3.0
+kmer=17
+INPUTFOLDER="/home/eobmg25/rawdata/clean_reads_lup"
+OUTPUTFOLDER="/home/eobmg25/rawdata/clean_reads_lup"
+# Loop. 
+for fq1 in $INPUTFOLDER/*.1_val_1.fq; do
+    SAMPLE=$(basename "$fq1" .1_val_1.fq)
+    fq2="$INPUTFOLDER/${SAMPLE}.2_val_2.fq"
+
+    echo ">>> Processing sample: $SAMPLE"
+
+    # K-mers count.
+    jellyfish count -t 8 -C -m $kmer -s 5G \
+        -o $OUTPUTFOLDER/${SAMPLE}.${kmer} \
+        --min-qual-char='?' \
+        $fq1 $fq2
+
+    # Histogram creation.
+    jellyfish histo -o $OUTPUTFOLDER/${SAMPLE}.${kmer}.histo \
+        $OUTPUTFOLDER/${SAMPLE}.${kmer}
+
+    echo "✔ Sample $SAMPLE concluded!"
+done
+Ctrl + O # Saves the file. 
+Enter
+Ctrl + X # Exits the editor.
+# To run the loop:
+chmod +x run_jellyfish.sh
+./run_jellyfish.sh
+>>> Processing sample: Lup2105
+-✔ Sample Lup2105 concluded!
+>>> Processing sample: Lup2106
+✔ Sample Lup2106 concluded!
+>>> Processing sample: Lup2121
+✔ Sample Lup2121 concluded!
+>>> Processing sample: Lup2137
+✔ Sample Lup2137 concluded!
+>>> Processing sample: Lup2167
+✔ Sample Lup2167 concluded!
+>>> Processing sample: Lup2178
+✔ Sample Lup2178 concluded!
+>>> Processing sample: Lup2221
+✔ Sample Lup2221 concluded!
+>>> Processing sample: Lup2251
+✔ Sample Lup2251 concluded!
+>>> Processing sample: Lup2268
+✔ Sample Lup2268 concluded!
+>>> Processing sample: Lup2278
+✔ Sample Lup2278 concluded!
+>>> Processing sample: Lup2341
+✔ Sample Lup2341 concluded!
+>>> Processing sample: Lup2346
+✔ Sample Lup2346 concluded!
+>>> Processing sample: Lup2361
+✔ Sample Lup2361 concluded!
+>>> Processing sample: Lup2363
+✔ Sample Lup2363 concluded!
+>>> Processing sample: Lup2384
+✔ Sample Lup2384 concluded!
+>>> Processing sample: Lup2392
+✔ Sample Lup2392 concluded!
+>>> Processing sample: Lup2431
+✔ Sample Lup2431 concluded!
+>>> Processing sample: Lup2457
+✔ Sample Lup2457 concluded!
+
+~/rawdata/clean_reads_lup$ ls -lrt
+total 759289284
+-rw-r--r-- 1 eobmg25 students        5167 Nov 10 02:10 Lup2106.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5259 Nov 10 02:11 Lup2121.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5225 Nov 10 02:12 Lup2137.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5319 Nov 10 02:12 Lup2167.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5256 Nov 10 02:13 Lup2268.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5228 Nov 10 02:14 Lup2221.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5257 Nov 10 02:16 Lup2251.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5238 Nov 10 02:16 Lup2178.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5064 Nov 10 02:18 Lup2361.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5114 Nov 10 02:18 Lup2341.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        4731 Nov 10 02:19 Lup2384.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5212 Nov 10 02:21 Lup2278.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5077 Nov 10 02:21 Lup2392.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5075 Nov 10 02:22 Lup2363.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5034 Nov 10 02:22 Lup2346.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5007 Nov 10 02:25 Lup2457.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5030 Nov 10 02:32 Lup2431.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 17877380535 Nov 10 03:09 Lup2268.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 17791109897 Nov 10 03:09 Lup2268.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5472 Nov 10 03:09 Lup2268.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 19128972592 Nov 10 03:13 Lup2121.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 19101868400 Nov 10 03:13 Lup2121.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5491 Nov 10 03:13 Lup2121.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 19379404070 Nov 10 03:13 Lup2167.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 19337065210 Nov 10 03:13 Lup2167.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5551 Nov 10 03:13 Lup2167.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 19648662147 Nov 10 03:13 Lup2137.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students 19693139809 Nov 10 03:13 Lup2137.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students        5457 Nov 10 03:13 Lup2137.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 19620093214 Nov 10 03:15 Lup2106.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 19600884518 Nov 10 03:15 Lup2106.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5421 Nov 10 03:15 Lup2106.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 19491762506 Nov 10 03:18 Lup2221.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 19463852396 Nov 10 03:18 Lup2221.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5475 Nov 10 03:18 Lup2221.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 20013727015 Nov 10 03:19 Lup2251.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 19967681211 Nov 10 03:19 Lup2251.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5484 Nov 10 03:19 Lup2251.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 19214501975 Nov 10 03:21 Lup2384.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 19202282633 Nov 10 03:21 Lup2384.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5008 Nov 10 03:21 Lup2384.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 20257209059 Nov 10 03:22 Lup2361.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 20202137139 Nov 10 03:22 Lup2361.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5294 Nov 10 03:22 Lup2361.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 20856049070 Nov 10 03:24 Lup2178.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 20821917534 Nov 10 03:24 Lup2178.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5465 Nov 10 03:24 Lup2178.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 21001642263 Nov 10 03:26 Lup2341.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 20910733367 Nov 10 03:26 Lup2341.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5350 Nov 10 03:26 Lup2341.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 20782508023 Nov 10 03:28 Lup2392.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 20684001699 Nov 10 03:28 Lup2392.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5356 Nov 10 03:28 Lup2392.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 21029426082 Nov 10 03:28 Lup2363.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 20988163720 Nov 10 03:28 Lup2363.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5305 Nov 10 03:28 Lup2363.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 20950257154 Nov 10 03:29 Lup2346.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students 20978818850 Nov 10 03:29 Lup2346.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students        5274 Nov 10 03:29 Lup2346.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 21939331368 Nov 10 03:37 Lup2278.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 21888186630 Nov 10 03:37 Lup2278.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5436 Nov 10 03:37 Lup2278.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 21844215292 Nov 10 03:39 Lup2457.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 21809788566 Nov 10 03:39 Lup2457.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5249 Nov 10 03:39 Lup2457.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 24992061113 Nov 10 03:49 Lup2431.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 24943556407 Nov 10 03:49 Lup2431.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5289 Nov 10 03:49 Lup2431.2.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students        5352 Nov 10 12:29 Lup2105.1.fq.gz_trimming_report.txt
+-rw-r--r-- 1 eobmg25 students 19377186851 Nov 10 13:24 Lup2105.1_val_1.fq
+-rw-r--r-- 1 eobmg25 students 19336144065 Nov 10 13:24 Lup2105.2_val_2.fq
+-rw-r--r-- 1 eobmg25 students        5575 Nov 10 13:24 Lup2105.2.fq.gz_trimming_report.txt
+-rwxr-xr-x 1 eobmg25 students         684 Nov 10 14:16 gunzip_all.sh
+-rwxr-xr-x 1 eobmg25 students         668 Nov 10 16:34 run_jellyfish.sh
+-rw-r--r-- 1 eobmg25 students  2140665512 Nov 10 16:49 Lup2105.17
+-rw-r--r-- 1 eobmg25 students       78681 Nov 10 16:50 Lup2105.17.histo
+-rw-r--r-- 1 eobmg25 students  2187737762 Nov 10 16:57 Lup2106.17
+-rw-r--r-- 1 eobmg25 students       79828 Nov 10 16:57 Lup2106.17.histo
+-rw-r--r-- 1 eobmg25 students  2551621118 Nov 10 17:18 Lup2121.17
+-rw-r--r-- 1 eobmg25 students       79180 Nov 10 17:18 Lup2121.17.histo
+-rw-r--r-- 1 eobmg25 students  2433950951 Nov 10 17:26 Lup2137.17
+-rw-r--r-- 1 eobmg25 students       80400 Nov 10 17:26 Lup2137.17.histo
+-rw-r--r-- 1 eobmg25 students  2486088752 Nov 10 17:51 Lup2167.17
+-rw-r--r-- 1 eobmg25 students       78694 Nov 10 17:51 Lup2167.17.histo
+-rw-r--r-- 1 eobmg25 students  2443998614 Nov 10 18:15 Lup2178.17
+-rw-r--r-- 1 eobmg25 students       79382 Nov 10 18:15 Lup2178.17.histo
+-rw-r--r-- 1 eobmg25 students  2354167742 Nov 10 18:40 Lup2221.17
+-rw-r--r-- 1 eobmg25 students       77337 Nov 10 18:40 Lup2221.17.histo
+-rw-r--r-- 1 eobmg25 students  2139794645 Nov 10 19:02 Lup2251.17
+-rw-r--r-- 1 eobmg25 students       81337 Nov 10 19:02 Lup2251.17.histo
+-rw-r--r-- 1 eobmg25 students  2241029012 Nov 10 19:19 Lup2268.17
+-rw-r--r-- 1 eobmg25 students       76532 Nov 10 19:19 Lup2268.17.histo
+-rw-r--r-- 1 eobmg25 students  2842433843 Nov 10 19:25 Lup2278.17
+-rw-r--r-- 1 eobmg25 students       77797 Nov 10 19:25 Lup2278.17.histo
+-rw-r--r-- 1 eobmg25 students  2869708667 Nov 10 19:35 Lup2341.17
+-rw-r--r-- 1 eobmg25 students       79462 Nov 10 19:35 Lup2341.17.histo
+-rw-r--r-- 1 eobmg25 students  2456323340 Nov 10 19:51 Lup2346.17
+-rw-r--r-- 1 eobmg25 students       81564 Nov 10 19:51 Lup2346.17.histo
+-rw-r--r-- 1 eobmg25 students  2734966706 Nov 10 19:58 Lup2361.17
+-rw-r--r-- 1 eobmg25 students       78755 Nov 10 19:59 Lup2361.17.histo
+-rw-r--r-- 1 eobmg25 students  2286276026 Nov 10 20:06 Lup2363.17
+-rw-r--r-- 1 eobmg25 students       79865 Nov 10 20:07 Lup2363.17.histo
+-rw-r--r-- 1 eobmg25 students  2026664771 Nov 10 20:19 Lup2384.17
+-rw-r--r-- 1 eobmg25 students       76142 Nov 10 20:19 Lup2384.17.histo
+-rw-r--r-- 1 eobmg25 students  2317290296 Nov 10 20:40 Lup2392.17
+-rw-r--r-- 1 eobmg25 students       74615 Nov 10 20:41 Lup2392.17.histo
+-rw-r--r-- 1 eobmg25 students  2480755487 Nov 10 21:03 Lup2431.17
+-rw-r--r-- 1 eobmg25 students       81569 Nov 10 21:04 Lup2431.17.histo
+-rw-r--r-- 1 eobmg25 students  2390061794 Nov 10 21:25 Lup2457.17
+-rw-r--r-- 1 eobmg25 students       80101 Nov 10 21:25 Lup2457.17.histo
+
+# Then we moved onto Windows Powershell and made secure copies for each of the 18 new files (terminating in ".histo") on our local folder "EOBMG" in order to proceed with the genome size estimation locally via RStudio.
+PS C:\Users\Desktop\EOBMG> scp project_server:/home/eobmg25/rawdata/clean_reads_lup/*.histo .
+
+# To be continued... (in RStudio)
