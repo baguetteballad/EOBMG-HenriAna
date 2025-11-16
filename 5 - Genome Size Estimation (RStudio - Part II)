@@ -43,7 +43,7 @@ dataframeLup2105.17[5:20,] # We do this to determine peak position. Looking at t
 # The proportion can be calculated as:
   
   (sum(as.numeric(dataframeLup2105.17[2:35,1]*dataframeLup2105.17[2:35,2]))) / (sum(as.numeric(dataframeLup2105.17[2:9989,1]*dataframeLup2105.17[2:9989,2]))) 
-# [1] 0.4398792, aka approximately 45%
+# [1] 0.4398792, aka approximately 44%
   
 # Since we have a nice curve, we can compare our curve to a theoretical curve, which is the Poission distribution.
   
