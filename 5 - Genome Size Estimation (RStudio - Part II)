@@ -4,11 +4,13 @@ dataframeLup2105.17 <- read.table("Lup2105.17.histo") # Load the data into the d
 plot(dataframeLup2105.17[1:200,], type="l") # Plots the data points 1 through 200 in the dataframe using a line.
 # In the histogram, The x-axis, is the frequency or the number of times a given k-mer is observed in the sequencing data. The y-axis, is the total number of k-mers with a given frequency.
 plot(dataframeLup2105.17[2:200,], type="l") # We disregard the first data point as it skewed the data - usually it represents a sequencing error.
-plot(dataframeLup2105.17[2:100,], type="l") # Plot line graph to determine the single-copy region.
+plot(dataframeLup2105.17[2:100,], type="l") # Plot line graph to determine the single-copy region. The single-copy region refers to an interval of data points where the proportion of k-mers in that region, compared to the entire genome, is complementary to the proportion of repeatome occupying the genome. The interval starts at the second data point since we excluded the first data point and ends on the first stabilised "valley" after the peak in the histogram. 
 points(dataframeLup2105.17[2:100,]) # Plot the data points from 2 through 100 for clarity.
-sum(as.numeric(dataframeLup2105.17[2:9325,1]*dataframeLup2105.17[2:9325,2])) # Assuming the total number of data points is 9325, we can now calculate the total k-mers in the distribution.
-#[1] 4678989146
-dataframeLup2105.17[5:20,] # We do this to determine peak position. Looking at the histogram, we know it to be located somewhere among the interval [5,20] of frequency.
+dim(dataframeLup2105.17)[1] # Gives us the dimension of the dataframe - specifically, the total number of data points.
+# [1] 9989
+sum(as.numeric(dataframeLup2105.17[2:9989,1]*dataframeLup2105.17[2:9989,2])) # Using the total number of data points we can now calculate the total k-mers in the distribution.
+# [1] 5092210661
+dataframeLup2105.17[5:20,] # We do this to determine peak position. Looking at the histogram, we know it to be located somewhere among the interval [5,20] of frequencies.
 #V1       V2
 #5   5 14980881
 #6   6 17645157
@@ -29,23 +31,23 @@ dataframeLup2105.17[5:20,] # We do this to determine peak position. Looking at t
 # We conclude that our peak is at 8 since it holds the highest total number of 17-mers (19184922).
 # In this case the peak is at 8. So the Genome Size can be estimated as:
   
-  sum(as.numeric(dataframeLup2105.17[2:9325,1]*dataframeLup2105.17[2:9325,2]))/8
-# [1] 584873643
-# This means the genome size for Lup2105 (17-mers) is approximately 585 Mb. (Megabase =10^6 bp)
+  sum(as.numeric(dataframeLup2105.17[2:9989,1]*dataframeLup2105.17[2:9989,2]))/8
+# [1] 636526333
+# This means the genome size for Lup2105 (17-mers) is approximately 637 Mb. (Megabase =10^6 bp)
   
-# It would be interesting to see the proportionality of the single copy region compared to the total genome size. In this data set the single copy region is between data point 2 and 28, So the size of single copy region can be roughly calculated as:
+# It would be interesting to see the proportionality of the single copy region compared to the total genome size. In this data set the single copy region is assumed to be between data points 2 and 35, So the size of single-copy region can be roughly calculated as:
     
-  sum(as.numeric(dataframeLup2105.17[2:30,1]*dataframeLup2105.17[2:30,2]))/8 
-# [1] 267921184
+  sum(as.numeric(dataframeLup2105.17[2:35,1]*dataframeLup2105.17[2:35,2]))/8 
+# [1] 279994706
   
 # The proportion can be calculated as:
   
-  (sum(as.numeric(dataframeLup2105.17[2:30,1]*dataframeLup2105.17[2:30,2]))) / (sum(as.numeric(dataframeLup2105.17[2:9325,1]*dataframeLup2105.17[2:9325,2]))) 
-# [1] 0.4580839, aka approximately 45%
+  (sum(as.numeric(dataframeLup2105.17[2:35,1]*dataframeLup2105.17[2:35,2]))) / (sum(as.numeric(dataframeLup2105.17[2:9989,1]*dataframeLup2105.17[2:9989,2]))) 
+# [1] 0.4398792, aka approximately 45%
   
 # Since we have a nice curve, we can compare our curve to a theoretical curve, which is the Poission distribution.
   
-  singleC <- sum(as.numeric(dataframeLup2105.17[2:30,1]*dataframeLup2105.17[2:30,2]))/8
+  singleC <- sum(as.numeric(dataframeLup2105.17[2:35,1]*dataframeLup2105.17[2:35,2]))/8
   poisdtb <- dpois(1:100,12)*singleC
   plot(poisdtb, type='l', lty=2, col="green")
   lines(dataframeLup2105.17[1:100,12] * singleC, type = "l", col=3)#, Ity=2)
