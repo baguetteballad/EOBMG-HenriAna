@@ -58,7 +58,7 @@ rownames(repeats_final)<-basename(repeats_summary_norm[-c(idxs_row_cont,nrow(rep
 # Here we change the accession numbers for species names, so it matches the names in our phylogeny.
 # Note that for Lupinus there is a problem here with LUP in the repeatExplorer output and Lup in our codes, so first change everything to "Lup".
 colnames(repeats_final)<-sub("LUP","Lup",colnames(repeats_final))
-# Also, in your runs the name of the sample was too long, it included the underscore at the end of the name. So let s remove it.
+# Also, in our runs the name of the sample was too long, it included the underscore at the end of the name. So let's remove it.
 colnames(repeats_final)<-sub("_","",colnames(repeats_final))
 
 
