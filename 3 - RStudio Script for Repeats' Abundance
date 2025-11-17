@@ -1,8 +1,8 @@
+setwd()
 install.packages("ape")
 # Ape is a package in R used to deal with phylogenetic data.
 library(ape)
 # Then we set our working directory to where we stored the needed files.
-setwd()
 # Read the full phylogeny of Lupinus.
 tr<-read.nexus(file="lupintree.tre")
 # You can plot the tree with plot just to check 
@@ -11,6 +11,9 @@ plot(tr)
 sampleInfo<-read.table("samplesLupinus_eoBMG25.txt",header=TRUE,sep="\t")
 # And create a new tree with only the samples analysed (need to use the column species.name)
 subtree<-keep.tip(tr,sampleInfo$species.name)
+# Add "L." as a prefix to all species in the phylogenetic tree.
+subtree$tip.label <- paste0("L. ", subtree$tip.label)
+
 
 # Check the full vs sub trees.
 # This creates 2 panels for plotss.
@@ -66,6 +69,8 @@ colnames(repeats_final)<-sub("_","",colnames(repeats_final))
 for(i in 1:dim(repeats_final)[2]){
   colnames(repeats_final)[i]<-sampleInfo$species.name[which(sampleInfo$Bioinf_code == colnames(repeats_final)[i])]
 }
+# Add "L." as a prefix to all species in the plot.
+colnames(repeats_final) <- paste0("L. ", colnames(repeats_final))
 
 # Now order the data frame according to the species order in the phylogeny figure.
 repeats_final<-repeats_final[,tip_order]
@@ -102,3 +107,5 @@ legend(x=75,y=21.6,xpd=NA,fill=cols,leg = legenda,cex=1.4)
 
 
 dev.off() # This is where the png stops
+
+
