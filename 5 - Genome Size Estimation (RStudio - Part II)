@@ -44,6 +44,7 @@ dataframeLup2105.17[5:20,] # We do this to determine peak position. Looking at t
   
   (sum(as.numeric(dataframeLup2105.17[2:35,1]*dataframeLup2105.17[2:35,2]))) / (sum(as.numeric(dataframeLup2105.17[2:9989,1]*dataframeLup2105.17[2:9989,2]))) 
 # [1] 0.4398792, aka approximately 44%
+# If the proportion of single-copy region in the genome is 44%, that means the repeatome proportion in the genome should be complementary (56%).
   
 # Since we have a nice curve, we can compare our curve to a theoretical curve, which is the Poission distribution.
   
@@ -52,3 +53,50 @@ dataframeLup2105.17[5:20,] # We do this to determine peak position. Looking at t
   plot(poisdtb, type='l', lty=2, col="green")
   lines(dataframeLup2105.17[1:100,12] * singleC, type = "l", col=3)#, Ity=2)
   lines(dataframeLup2105.17[1:100,],type= "l")  
+
+# After calculation the genome size, coverage, single-copy region proportion and repeatome proportion for each of the 18 species, we compiled all the data into a table.
+
+Names <- c("Lup2105","Lup2106","Lup2121","Lup2137","Lup2167","Lup2178","Lup2221","Lup2251","Lup2268","Lup2278","Lup2341","Lup2346","Lup2361","Lup2363","Lup2384","Lup2392","Lup2431","Lup2457")
+Names
+
+GenomeSize <- c(637,788,883,887,859,708,752,761,705,603,1419,806,998,716,529,708,751,620)
+
+Coverage <- c(8,6,6,6,6,7,6,7,6,8,4,8,6,9,10,6,10,10)
+
+SinglecopyRegion_Proportion <- c(0.44,0.41,0.45,0.41,0.45,0.45,0.45,0.40,0.45,0.48,0.40,0.37,0.44,0.41,0.48,0.48,0.40,0.48)
+  
+Repeatome_Proportion <- c(0.56,0.59,0.55,0.59,0.55,0.55,0.55,0.60,0.55,0.52,0.60,0.63,0.56,0.59,0.52,0.52,0.60,0.52)
+
+TableGS <-data.frame("Names"=Names,"Coverage"=Coverage,"GenomeSize"=GenomeSize,"SinglecopyRegion_Proportion"=SinglecopyRegion_Proportion,"Repeatome_Proportion"=Repeatome_Proportion)
+
+TableGS
+# Names Coverage GenomeSize SinglecopyRegion_Proportion Repeatome_Proportion
+#1  Lup2105        8        637                        0.44                 0.56
+#2  Lup2106        6        788                        0.41                 0.59
+#3  Lup2121        6        883                        0.45                 0.55
+#4  Lup2137        6        887                        0.41                 0.59
+#5  Lup2167        6        859                        0.45                 0.55
+#6  Lup2178        7        708                        0.45                 0.55
+#7  Lup2221        6        752                        0.45                 0.55
+#8  Lup2251        7        761                        0.40                 0.60
+#9  Lup2268        6        705                        0.45                 0.55
+#10 Lup2278        8        603                        0.48                 0.52
+#11 Lup2341        4       1419                        0.40                 0.60
+#12 Lup2346        8        806                        0.37                 0.63
+#13 Lup2361        6        998                        0.44                 0.56
+#14 Lup2363        9        716                        0.41                 0.59
+#15 Lup2384       10        529                        0.48                 0.52
+#16 Lup2392        6        708                        0.48                 0.52
+#17 Lup2431       10        751                        0.40                 0.60
+#18 Lup2457       10        620                        0.48                 0.52
+
+# Then we saved the data to a new txt file in the current directory.
+# Ensure the directory exists
+output_dir <- "()"
+if (!dir.exists(output_dir)) {
+  dir.create(output_dir, recursive = TRUE)
+}
+
+# Write the table to a file
+write.table(TableGS, file=paste0(output_dir, "/TableGS.txt"), sep="\t", quote=FALSE, row.names=FALSE, col.names=TRUE)
+
