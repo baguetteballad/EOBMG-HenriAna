@@ -361,4 +361,6 @@ total 759289284
 # Then we moved onto Windows Powershell and made secure copies for each of the 18 new files (terminating in ".histo") on our local folder "EOBMG" in order to proceed with the genome size estimation locally via RStudio.
 PS C:\Users\Desktop\EOBMG> scp project_server:/home/eobmg25/rawdata/clean_reads_lup/*.histo .
 
+# After everything was done we ended up moving the "clean_reads_lup" directory, with its' final path being: /home/eobmg25/rawdata/Lupinus/clean_reads_lup (simply for the sake of convenience and reorganization of the project server). By chanding the directory's path, one should also keep in mind that the loops previously arranged will no longer work unless the script specificies the newly, correct, "INPUTFOLDER" and "OUTPUTFOLDER". In our case, we ended up not changing the script since it bears no importance to the rest of our analysis with Lupinus, since we won't need to reuse it in this context.
+
 # To be continued... (in RStudio)
