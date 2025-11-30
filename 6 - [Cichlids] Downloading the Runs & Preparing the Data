@@ -1,6 +1,6 @@
-# Now it´s time to start analysing african cichlid fish. In order to do that we chose a total of 16 species - 4 related to lake Tanganyika, 4 to lake Malawi, 4 to lake Victoria region and the final 4 served as outgroups.
+# Now it's time to start analysing african cichlid fishes. In order to do that we chose a total of 16 species - 4 related to lake Tanganyika, 4 to lake Malawi, 4 to lake Victoria region and the final 4 served as outgroups.
 # We proceeded to choose a specific sequencing run for each species via "sra database" website, filtering our results with the options "DNA", "Paired", "Illumina" and "Genome".
-# The following list represents all chosen fish, alongside the links containing each run:
+# The following list represents all chosen fishes, alongside the links containing each run:
 
 Lake Tanganyika:
 1 - Eretmodus cyanostictus
@@ -70,7 +70,7 @@ screen -S 1
 
 # Since we're dealing with big files we saved the screen in order for it to run on the backgroud.
 Ctrl+A+D 
-# The same was done for all 16 species of cichlid fish chosen - We created 16 screens and kept each run downloading.
+# The same was done for all 16 species of cichlid fishes chosen - We created 16 screens and kept each run downloading.
 # Some files were bigger than 20 Gb. By default, "prefetch" does not download files that big so we had to specify new conditions for certain species' runs. Ex:
 prefetch DRR551855 --max-size 100GB #
 # After every run finally downloaded we extracted the fastq reads from all downloaded files.
