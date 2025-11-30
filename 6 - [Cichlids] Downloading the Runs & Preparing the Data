@@ -1,0 +1,84 @@
+# Now it´s time to start analysing african cichlid fish. In order to do that we chose a total of 16 species - 4 related to lake Tanganyika, 4 to lake Malawi, 4 to lake Victoria region and the final 4 served as outgroups.
+# We proceeded to choose a specific sequencing run for each species via "sra database" website, filtering our results with the options "DNA", "Paired", "Illumina" and "Genome".
+# The following list represents all chosen fish, alongside the links containing each run:
+
+Lake Tanganyika:
+1 - Eretmodus cyanostictus
+https://www.ncbi.nlm.nih.gov/sra/SRX6434452[accn]
+2 - Neolamprologus longior
+https://www.ncbi.nlm.nih.gov/sra/SRX6434312[accn]
+3 - Tropheus moorii
+https://www.ncbi.nlm.nih.gov/sra/SRX6434496[accn]
+4 - Boulengerochromis microlepis
+https://www.ncbi.nlm.nih.gov/sra/SRX6434461[accn]
+
+Lake Malawi:
+5 - Rhamphochromis esox
+https://www.ncbi.nlm.nih.gov/sra/ERX14135161[accn]
+6 - Placidochromis elongatus
+https://www.ncbi.nlm.nih.gov/sra/ERX14135501[accn]
+7 - Melanochromis auratus
+https://www.ncbi.nlm.nih.gov/sra/ERX14135464[accn]
+8 - Nimbochromis livingstonii
+https://www.ncbi.nlm.nih.gov/sra/ERX14135322[accn]
+
+Lake Victoria region:
+9 - Pundamilia nyererei
+https://www.ncbi.nlm.nih.gov/sra/SRX27907581[accn]
+10 - Haplochromis thereuterion
+https://www.ncbi.nlm.nih.gov/sra/SRX9180402[accn]
+11 - Paralabidochromis sauvagei 
+https://www.ncbi.nlm.nih.gov/sra/DRX535589[accn]
+12 - Yssichromis pyrrhocephalus
+https://www.ncbi.nlm.nih.gov/sra/SRX9180409[accn]
+
+Outgroups:
+13 - Oreochromis niloticus
+https://www.ncbi.nlm.nih.gov/sra/SRX28711298[accn]
+14 - Congolapia crassa
+https://trace.ncbi.nlm.nih.gov/Traces/?view=run_browser&acc=SRR35159110&display=analysis 	
+15 - Steatocranus sp. 'ultraslender' AB-2019
+https://trace.ncbi.nlm.nih.gov/Traces/?view=run_browser&acc=SRR9675343&display=metadata
+16 - Pelmatolapia mariae
+https://www.ncbi.nlm.nih.gov/sra/SRX6435737[accn]
+
+# After that we downloaded all 16 runs into our project server using the command "prefetch", but first...
+~$ ls
+people  rawdata  repeatexplorer  Rplots.pdf
+~$ cd rawdata
+~/rawdata$ ls
+Lupinus
+# We created a new directory so we could start our work with the cichlids. 
+~/rawdata$ mkdir Cichlids
+~/rawdata$ ls
+Cichlids  Lupinus
+~/rawdata$ cd Cichlids/
+~/rawdata/Cichlids$ ls
+~/rawdata/Cichlids$ module load sratoolkit/3.0.10
+screen -S 1
+# We used the prefetch command, alongside each run code to download the 16 different runs. 
+~/rawdata/Cichlids$ prefetch SRR9674012 #
+
+2025-11-18T23:38:07 prefetch.3.0.10: Current preference is set to retrieve SRA Normalized Format files with full base quality scores.
+2025-11-18T23:38:08 prefetch.3.0.10: 1) Downloading 'SRR9674012'...
+2025-11-18T23:38:08 prefetch.3.0.10: SRA Normalized Format file is being retrieved, if this is different from your preference, it may be due to current file availability.
+2025-11-18T23:38:08 prefetch.3.0.10:  Downloading via HTTPS...
+2025-11-19T13:31:53 prefetch.3.0.10:  HTTPS download succeed
+2025-11-19T13:32:02 prefetch.3.0.10:  'SRR9674012' is valid
+2025-11-19T13:32:02 prefetch.3.0.10: 1) 'SRR9674012' was downloaded successfully
+2025-11-19T13:32:02 prefetch.3.0.10: 'SRR9674012' has 0 unresolved dependencies
+
+# Since we're dealing with big files we saved the screen in order for it to run on the backgroud.
+Ctrl+A+D 
+# The same was done for all 16 species of cichlid fish chosen - We created 16 screens and kept each run downloading.
+# Some files were bigger than 20 Gb. By default, "prefetch" does not download files that big so we had to specify new conditions for certain species' runs. Ex:
+prefetch DRR551855 --max-size 100GB #
+# After every run finally downloaded we extracted the fastq reads from all downloaded files.
+~/rawdata/Cichlids$ fasterq-dump SRR9674012 #
+
+# After we have the fastq product files (each of the 16 runs producing a pair of reads forward + reverse) we can finally do the same analysis we did for Lupinus but now with the Cichlids - we shall compress each sample forward and reverse to a new subsample of 2M reads, with said subsample being of .gz nature.
+module load seqtk
+seqtk sample -s10 SRR9674012_2.fastq 2000000 | gzip -c > SRR9674012_2milhoes.2.fq.gz
+# Then we import the subsamples into Galaxy and run all the necessary programs so that we end with a comparative analysis via repeat explorer clustering.
+# All subsequent steps can be followed simply by reading the earlier tutorials in this repository, but now applied to the cichlid fish samples in order to obtain, once again, the final analysis of genome size estimation. 
+# Thank you very much for reading! We hope that we were as clear and concise as possible. Good luck with your researches :)
