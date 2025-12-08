@@ -80,5 +80,4 @@ prefetch DRR551855 --max-size 100GB #
 module load seqtk
 seqtk sample -s10 SRR9674012_2.fastq 2000000 | gzip -c > SRR9674012_2milhoes.2.fq.gz
 # Then we import the subsamples into Galaxy and run all the necessary programs so that we end with a comparative analysis via repeat explorer clustering.
-# All subsequent steps can be followed simply by reading the earlier tutorials in this repository, but now applied to the cichlid fish samples in order to obtain, once again, the final analysis of genome size estimation. 
-# Thank you very much for reading! We hope that we were as clear and concise as possible. Good luck with your researches :)
+# Tutorial number 2 in this repository was finally repeated but now in relation to the Cichlids - though now we had to create the phylogenetic tree ourselves, as shown in the subsequent tutorial (number 7).
