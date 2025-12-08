@@ -1,0 +1,82 @@
+setwd()
+# Now we will build a philogenetic tree for our cichlids. In order to do so, the tree's branching related to lake Malawi and lake Victoria Region was built using polytomies as its basis; as described on our study.
+# For lake Tanganyika and for the outgroups, we grouped the species based on the respective papers mentioned in our work.
+
+install.packages("ape") # run once
+library(ape)
+tr<-read.tree(text="((((((((((Pundamilia_nyererei,Haplochromis_thereuterion,Paralabidochromis_sauvagei,Yssichromis_pyrrhocephalus),(Rhamphochromis_esox,Placidochromis_elongatus,Melanochromis_auratus,Nimbochromis_livingstonii)),Tropheus_moorii),Eretmodus_cyanostictus),Neolamprologus_longior),Boulengerochromis_microlepis),Steatocranus_sp._ultraslender),Congolapia_crassa),Oreochromis_niloticus),Pelmatolapia_mariae);")
+              
+plot(tr)
+
+# Now we save the order of the names in the tree. We´ll need this so the graph follows the same order.
+tip_order<-tr$tip.label
+
+# Let us read the sample information used in this project.
+sampleInfo<-read.table("samples_cichlids.txt",header=TRUE,sep="\t")
+
+# Now we read the summarised results from repeatexplorer.
+repeatAnnot<-read.table("repeats.cichlids.txt",header=TRUE,sep="\t")
+# Check what this dataset contains now.
+str(repeatAnnot)
+
+# The following 3 lines create a new object, repeats_summary, with just the information we need, and adds a row at the bottom that has the total number of reads of each sample.
+totals<-cbind("total reads",NA,NA,repeatAnnot[1,10:ncol(repeatAnnot)])
+names(totals)[1:3]<-c("Final_annotation","cluster","supercluster")
+repeats_summary<-rbind(repeatAnnot[2:nrow(repeatAnnot),7:ncol(repeatAnnot)], totals)
+str(repeats_summary)
+# Now we ned to normalise the number of reads, i.e. remove mitochondiral and plastid (if there's other contamination we need to check too) and then divide the number of reads of each repeat element by the total number of reads (for each sample).
+repeats_summary_norm<-repeats_summary
+# This next command gets the indexes of  the rows with mitochondrial and plastid reads - to be excluded in calculations.
+idxs_row_cont<-grep("mitochondria|plastid|contamination",repeats_summary$Final_annotation)
+
+# Now we loop over each individual and normalise the counts for its repeats.
+for(icol in 4:ncol(repeats_summary)){
+  # total_species is the total number of reads in this species.
+  total_species = repeats_summary[nrow(repeats_summary),icol]
+  # We obtain the total number of nuclear reads by subtracting mitochondiral and plastid reads.
+  total_species_nuclear<-total_species - sum(repeats_summary[idxs_row_cont,icol])
+  # The next loop goes over each repeat type of this species, and divides it by the total number of nuclear reads.
+  # It finishes at nrow-1 because the last row is the total number of reads for the individual.
+  for(irow in 1:(nrow(repeats_summary)-1)){
+    repeats_summary_norm[irow,icol]=100*repeats_summary[irow,icol]/total_species_nuclear
+  }
+}
+
+# Let us remove cols and rows not needed.
+repeats_final<-repeats_summary_norm[-c(idxs_row_cont,nrow(repeats_summary_norm)),4:ncol(repeats_summary_norm)]
+# And keep only the most specific term for each repeat.
+rownames(repeats_final)<-basename(repeats_summary_norm[-c(idxs_row_cont,nrow(repeats_summary_norm)),1])
+
+# Now replace codes with species names.
+for(i in 1:dim(repeats_final)[2]){
+  colnames(repeats_final)[i]<-sampleInfo$Species.Names[which(sampleInfo$BioInf_Code == colnames(repeats_final)[i])]
+}
+# We decided to cut the final code/sample ID for the Steatocranus sp. 'ultraslender' (AB-2019) species for the sake of better graph visualization.
+colnames(repeats_final) <- gsub("AB-2019", "", colnames(repeats_final))
+# Which left us with a trailing space at the end of the species' name, so we removed that space.
+colnames(repeats_final) <- trimws(colnames(repeats_final))
+
+# Now order the data frame according to the species order in the phylogeny figure.
+tip_order_clean <- gsub("_", " ", tip_order)
+repeats_final <- repeats_final[, tip_order_clean]
+
+# Vector with the desired order for the rows in "repeats_final" (so that the plot is coherent with the legend).
+ordem_desejada <- c("satellite", "repeat","45S_rDNA","Class_I",
+                    "LINE","LTR","Ty3_gypsy","OTA", "non-chromo-outgroup","Tc1_Mariner","All")
+# Create a new variable to reorder the final repeats according to the legend.
+repeats_final_ord <- repeats_final[match(ordem_desejada, rownames(repeats_final)), ]
+
+
+cols<-rainbow(11, s = 0.8, v = 1)
+
+barplot(1:11)
+
+legenda<- c("Satellite", "Putative Satellite","45S rDNA","Class I",
+            "LINE","LTR","Ty3/gypsy","OTA", "Non-chromo-outgroup","Tc1/Mariner","All")
+
+par(mfrow=c(1,3), mar=c(5,7,4,0))  # c(bottom, left, top, right)), makes the bars more elongated
+plot(tr, cex=1.2, direction="rightwards", x.lim=c(0, 25))
+
+# xlim to make the barplot fit inside the scale (max=60).
+barplot(as.matrix(repeats_final_ord),horiz=TRUE,las=1,col=cols,xlim=c(0, 50), border="black", cex.names=1.2)
+legend(x=50,y=20,xpd=NA,fill=cols,leg = legenda,cex=1.4,bty = "n", y.intersp = 1.1)
