@@ -1,5 +1,5 @@
 # The work in WSL was carried out with access to the server provided by the supervising professor, Bruno Nevado. The project began with the 18 Lupinus species under study, serving as the basis for a total of 36 samples of reads (18 forward samples + 18 reverse samples).
-ssh username@servidor
+ssh username@server
 ~$ pwd
 /home/eobmg25
 ~$ ls -lrt
