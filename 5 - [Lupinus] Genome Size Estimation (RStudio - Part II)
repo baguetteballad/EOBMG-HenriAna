@@ -54,7 +54,7 @@ dataframeLup2105.17[5:20,] # We do this to determine peak position. Looking at t
   lines(dataframeLup2105.17[1:100,12] * singleC, type = "l", col=3)#, Ity=2)
   lines(dataframeLup2105.17[1:100,],type= "l")  
 
-# After calculation the genome size, coverage, single-copy region proportion and repeatome proportion for each of the 18 species, we compiled all the data into a table.
+# After calculating the genome size, coverage, single-copy region proportion and repeatome proportion for each of the 18 species, we compiled all the data into a new table. This table was used as a draft for the rest of our work; we ended up building a bit more upon it.
 
 Names <- c("Lup2105","Lup2106","Lup2121","Lup2137","Lup2167","Lup2178","Lup2221","Lup2251","Lup2268","Lup2278","Lup2341","Lup2346","Lup2361","Lup2363","Lup2384","Lup2392","Lup2431","Lup2457")
 Names
