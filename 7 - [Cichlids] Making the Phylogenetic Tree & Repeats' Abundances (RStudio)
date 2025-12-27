@@ -1,5 +1,5 @@
 setwd()
-# Now we will build a phylogenetic tree for our cichlids using a Newick tree. In order to do so, the tree's branching related to lake Malawi and lake Victoria Region was built using polytomies as its basis; as described on our study.
+# Now we will build a phylogenetic tree for our cichlids using a Newick-formatted tree. In order to do so, the tree's branching related to lake Malawi and lake Victoria Region was built using polytomies as its basis; as described on our study.
 # For lake Tanganyika and for the outgroups, we grouped the species based on the respective papers mentioned in our work.
 
 install.packages("ape") # run once
