@@ -24,10 +24,10 @@ Each file (numbered 1 to 8) contains scripts corresponding to a specific step in
 
 This repository includes:
 
-- **Bash / Shell scripting**
-- **Windows PowerShell**
-- **R / RStudio scripts**
-- Standard command-line utilities
+- **Bash / Shell scripting;**
+- **Windows PowerShell;**
+- **R / RStudio scripts;**
+- Standard command-line utilities.
 
 ## Getting Started
 
