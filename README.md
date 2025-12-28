@@ -36,4 +36,4 @@ To begin using this project:
 1. **Clone the repository**  
    ```sh
    git clone https://github.com/baguetteballad/EOBMG-HenriAna.git
-   cd EOBMG-HenriAna
+   cd EOBMG-HenriAna/
