@@ -1,1 +1,60 @@
+setwd()
+
+# As detailed in our relatory for EOBMG, during Galaxy procedures we ended up doing a repeatexplorer2: clustering analysis for each individual species.
+# Now, we are finally making use of said results.
+# We calculated, via the referrent cluster tables (for each species), the proportion of each classified repeat type in the genome, and we proceeded to save that information in an Excel table encompassing all individual analyses.
+# After doing so, we saved the table as .txt, for both Lupinus and Cichlids, in order to start correlation analysis.
+repeats_cic_ind<-read.table("repeats_cichlids_individual.txt",header=TRUE,sep="\t")
+
+# The Shapiro-Wilk test is used to check if the data are normally distributed; 
+# if not, Spearman’s rank correlation provides a robust, non-parametric measure of association that does not assume normality, leading us to understand whether or not repeat types in individual analyses are consistent with repeat types in comparative analysis, and vice-versa – thus providing greater confidence in our results.
+# We started with extracting the LINE repeat type for individual analyses:
+as.numeric(t(repeats_cic_ind)["LINE",])-> LINE.ind
+
+# Also from comparative analysis:
+repeats_final_ord["LINE",]->LINE.comp
+
+# Add name codes.
+names(LINE.ind)<-t(repeats_cic_ind)["X",]
+
+# Change to species names.
+names(LINE.ind)<-sampleInfo$Species.Names[match(names(LINE.ind),sampleInfo$BioInf_Code)]
+
+# Fix manually the entries with wrong names.
+names(LINE.ind)[4] <- "Haplochromis thereuterion"
+names(LINE.ind)[5]<-"Melanochromis auratus"
+names(LINE.ind)[14]<-"Steatocranus sp. ultraslender"
+
+# Match orders in individual and comparative datasets.
+LINE.ind<-LINE.ind[match(names(LINE.comp),names(LINE.ind))]
+
+# Check that the names are in the same order.
+all.equal(names(LINE.ind),names(LINE.comp))
+
+# Here turn the data frame into a vector.
+LINE.comp<-as.numeric(LINE.comp)
+
+# And add names (note that all.equal above must have returned TRUE).
+names(LINE.comp)<-names(LINE.ind)
+
+# Now test normality 
+shapiro.test(LINE.comp)
+shapiro.test(LINE.ind)
+
+# If rejected for either variable, use spearman's rank correlation.
+cor.test(x=LINE.comp, y=LINE.ind,method = "spearman"
+         
+# Scatter plot:
+plot(LINE.comp, LINE.ind,
+     xlab = "Comparative clustering (%)",
+     ylab = "Individual clustering (%)",
+     main = "LINE repeat correlation",
+     pch = 19, col = "steelblue")
+
+# Add regression line (optional: loess for Spearman-like trend).
+lines(lowess(LINE.comp, LINE.ind), col = "forestgreen", lwd = 2)
+
+# Add Spearman correlation coefficient.
+rho <- cor(LINE.comp, LINE.ind, method = "spearman")
+legend("topleft", legend = paste("Spearman rho =", round(rho, 2)), bty = "n")
 
