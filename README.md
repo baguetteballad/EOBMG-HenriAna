@@ -27,7 +27,7 @@ This repository includes:
 - **Bash / Shell scripting;**
 - **Windows PowerShell;**
 - **R / RStudio scripts;**
-- Standard command-line utilities.
+- **Standard command-line utilities.**
 
 ## Getting Started
 
