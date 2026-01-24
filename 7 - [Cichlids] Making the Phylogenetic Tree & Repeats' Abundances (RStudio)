@@ -88,4 +88,4 @@ barplot(as.matrix(repeats_final_ord_subset),horiz=TRUE,las=1,col=cols,xlim=c(0, 
 legend(x=10,y=20,xpd=NA,fill=cols,leg = legenda_subset,cex=1.4,bty = "n", y.intersp = 1.1)
 
 # After concluding tutorial number 7 we simply repeated tutorials 5 and 6, though now in relation to the cichlid fishes samples, in order to infer the genome size.
-# With the last step finished, we can finally end our walkthrough. Thank you very much for reading and accompanying us this far, we wish you the very best on your own researches! Best regards, Henri & Ana <3
+
