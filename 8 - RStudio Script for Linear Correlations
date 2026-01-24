@@ -58,3 +58,4 @@ lines(lowess(LINE.comp, LINE.ind), col = "forestgreen", lwd = 2)
 rho <- cor(LINE.comp, LINE.ind, method = "spearman")
 legend("topleft", legend = paste("Spearman rho =", round(rho, 2)), bty = "n")
 
+# With the ending of our last tutorial, we can finally finish our walkthrough. Thank you very much for reading and accompanying us this far, we wish you the very best on your own researches! Best regards, Henri & Ana <3
