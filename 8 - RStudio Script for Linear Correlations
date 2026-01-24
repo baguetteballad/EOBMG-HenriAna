@@ -42,7 +42,7 @@ shapiro.test(LINE.comp)
 shapiro.test(LINE.ind)
 
 # If rejected for either variable, use spearman's rank correlation.
-cor.test(x=LINE.comp, y=LINE.ind,method = "spearman"
+cor.test(x=LINE.comp, y=LINE.ind,method = "spearman")
          
 # Scatter plot:
 plot(LINE.comp, LINE.ind,
