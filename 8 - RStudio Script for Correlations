@@ -1,6 +1,6 @@
 setwd()
 
-# As detailed in our relatory for EOBMG, during Galaxy procedures we ended up doing a repeatexplorer2: clustering analysis for each individual species.
+# As detailed in our relatory for EOBMG, during Galaxy procedures we ended up doing a repeatexplorer2: clustering analysis for each individual species (aside from comparative analysis).
 # Now, we are finally making use of said results.
 # We calculated, via the referrent cluster tables (for each species), the proportion of each classified repeat type in the genome, and we proceeded to save that information in an Excel table encompassing all individual analyses.
 # After doing so, we saved the table as .txt, for both Lupinus and Cichlids, in order to start correlation analysis.
