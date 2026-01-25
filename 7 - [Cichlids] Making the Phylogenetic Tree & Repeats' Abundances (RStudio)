@@ -87,5 +87,5 @@ plot(tr, cex=1.2, direction="rightwards", x.lim=c(0, 40))
 barplot(as.matrix(repeats_final_ord_subset),horiz=TRUE,las=1,col=cols,xlim=c(0, 10), border="black", cex.names=1.2, font=3)
 legend(x=10,y=20,xpd=NA,fill=cols,leg = legenda_subset,cex=1.4,bty = "n", y.intersp = 1.1)
 
-# After concluding tutorial number 7 we simply repeated tutorials 5 and 6, though now in relation to the cichlid fishes samples, in order to infer the genome size.
+# After concluding tutorial number 7 we simply repeated tutorials 4 and 5, though now in relation to the cichlid fishes samples, in order to infer the genome size.
 
