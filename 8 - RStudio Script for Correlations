@@ -2,8 +2,8 @@ setwd()
 
 # As detailed in our relatory for EOBMG, during Galaxy procedures we ended up doing a repeatexplorer2: clustering analysis for each individual species (aside from comparative analysis).
 # Now, we are finally making use of said results.
-# We calculated, via the referrent cluster tables (for each species), the proportion of each classified repeat type in the genome, and we proceeded to save that information in an Excel table encompassing all individual analyses.
-# After doing so, we saved the table as .txt, for both Lupinus and Cichlids, in order to start correlation analysis.
+# We calculated, via the referrent cluster tables (for each species), the proportion of each classified repeat type in the genome, and we proceeded to save that information in an Excel table encompassing all individual analyses (for both groups of study - cichlids and lupins).
+# After doing so, we saved the tables as .txt in order to start correlation analysis.
 repeats_cic_ind<-read.table("repeats_cichlids_individual.txt",header=TRUE,sep="\t")
 
 # The Shapiro-Wilk test is used to check if the data are normally distributed; 
@@ -58,4 +58,5 @@ lines(lowess(LINE.comp, LINE.ind), col = "forestgreen", lwd = 2)
 rho <- cor(LINE.comp, LINE.ind, method = "spearman")
 legend("topleft", legend = paste("Spearman rho =", round(rho, 2)), bty = "n")
 
+# Then we repeated the protocol but for the lupins.
 # With the ending of our last tutorial, we can finally finish our walkthrough. Thank you very much for reading and accompanying us this far, we wish you the very best on your own researches! Best regards, Henri & Ana <3
