@@ -35,7 +35,7 @@ totals<-cbind("total reads",NA,NA,repeatAnnot[1,10:ncol(repeatAnnot)])
 names(totals)[1:3]<-c("Final_annotation","cluster","supercluster")
 repeats_summary<-rbind(repeatAnnot[2:nrow(repeatAnnot),7:ncol(repeatAnnot)], totals)
 str(repeats_summary)
-# Now we ned to normalise the number of reads, i.e. remove mitochondiral and plastid (if there's other contamination we need to check too) and then divide the number of reads of each repeat element by the total number of reads (for each sample).
+# Now we need to normalise the number of reads, i.e. remove mitochondiral and plastid (if there's other contamination we need to check too) and then divide the number of reads of each repeat element by the total number of reads (for each sample).
 repeats_summary_norm<-repeats_summary
 # This next command gets the indexes of  the rows with mitochondrial and plastid reads - to be excluded in calculations.
 idxs_row_cont<-grep("mitochondria|plastid",repeats_summary$Final_annotation)
