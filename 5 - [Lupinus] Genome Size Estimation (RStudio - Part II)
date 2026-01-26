@@ -46,7 +46,7 @@ dataframeLup2105.17[5:20,] # We do this to determine peak position. Looking at t
 # [1] 0.4398792, aka approximately 44%
 # If the proportion of single-copy region in the genome is 44%, that means the repeatome proportion in the genome should be complementary (56%).
   
-# Since we have a nice curve, we can compare our curve to a theoretical curve, which is the Poission distribution.
+# Since we have a nice curve, we can compare our curve to a theoretical curve, which is the Poisson distribution.
   
   singleC <- sum(as.numeric(dataframeLup2105.17[2:35,1]*dataframeLup2105.17[2:35,2]))/8
   poisdtb <- dpois(1:100,12)*singleC
