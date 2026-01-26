@@ -41,7 +41,7 @@ names(LINE.comp)<-names(LINE.ind)
 shapiro.test(LINE.comp)
 shapiro.test(LINE.ind)
 
-# If rejected for either variable, use spearman's rank correlation.
+# If rejected for either variable, use spearman's rank correlation.*
 cor.test(x=LINE.comp, y=LINE.ind,method = "spearman")
          
 # Scatter plot:
@@ -58,5 +58,34 @@ lines(lowess(LINE.comp, LINE.ind), col = "forestgreen", lwd = 2)
 rho <- cor(LINE.comp, LINE.ind, method = "spearman")
 legend("topleft", legend = paste("Spearman rho =", round(rho, 2)), bty = "n")
 
+# *When not rejecting H0 we assume normality and therefore change the method to "pearson", as in, Pearson's correlation coefficient (linear correlation).
+# For the cichlids, only Tc1/Mariner had assumed normality. 
+cor.test(x=Tc1_Mariner.comp, y=Tc1_Mariner.ind,method = "pearson")
+
+# Create dataframe
+df <- data.frame(
+  Comparative = Tc1_Mariner.comp,
+  Individual  = Tc1_Mariner.ind
+)
+
+# Pearson correlation
+cor_res <- cor.test(df$Comparative, df$Individual, method = "pearson")
+
+# Scatter plot
+plot(df$Comparative, df$Individual,
+     pch = 19, col="darkblue",
+     xlab = "Proportion (Comparative Analysis)",
+     ylab = "Proportion (Individual Analyses)",
+     main = "Tc1/Mariner: Comparative vs Individual Analyses")
+
+# Add regression line
+abline(lm(Individual ~ Comparative, data = df), lwd = 2, col="orange")
+
+# Add correlation text
+legend("topleft",
+       legend = paste0("r = ", round(cor_res$estimate, 3),
+                       "\np = ", signif(cor_res$p.value, 3)),
+       bty = "n")
+         
 # Then we repeated the protocol but for the lupins.
 # With the ending of our last tutorial, we can finally finish our walkthrough. Thank you very much for reading and accompanying us this far, we wish you the very best on your own researches! Best regards, Henri & Ana <3
