@@ -18,7 +18,7 @@ Each file (numbered 1 to 8) contains scripts corresponding to a specific step in
 - 5: RStudio script for histogram analysis' and concluding genome size estimation;
 - 6: Downloading SRA runs referrent to public datasets and importing them to the WSL server;
 - 7: RStudio script for making and plotting Newick-formatted trees;
-- 8: RStudio script for linear correlations.
+- 8: RStudio script for correlations.
 
 ## Tech Stack
 
